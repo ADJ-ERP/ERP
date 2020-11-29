@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class CreateDatabase {
-    private static Connection c = null;
+    public static Connection c = null;
 
     public static void create(String name) throws SQLException, ClassNotFoundException {
         boolean createDir = new File("database").mkdir();
