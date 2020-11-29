@@ -8,6 +8,8 @@ package main;
 import buttonActions.RegUserAction;
 
 import javax.swing.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 /**
@@ -50,7 +52,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
         jBAcaptar.addActionListener(actionEvent -> {
             try {
                 RegUserAction.registerUser(jTextAUsuario.getText(), jTextAContraseña.getText(), jTextARepite.getText());
-            } catch (SQLException throwables) {
+            } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException throwables) {
                 throwables.printStackTrace();
             }
         });
