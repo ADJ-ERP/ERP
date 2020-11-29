@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class CreateDatabase {
     public static Connection c = null;
 
-    public static void create(String name) throws SQLException, ClassNotFoundException {
+    public static void create(String name) throws SQLException {
         boolean createDir = new File("database").mkdir();
         if (createDir) System.out.println("Carpeta de la base de datos creada");
         c = DriverManager.getConnection(String.format("jdbc:sqlite:database/%s.db", name));

@@ -52,7 +52,7 @@ public class RegistroUsuario extends javax.swing.JFrame {
         jBAcaptar.addActionListener(actionEvent -> {
             try {
                 RegUserAction.registerUser(jTextAUsuario.getText(), jTextAContraseña.getText(), jTextARepite.getText());
-            } catch (SQLException | NoSuchAlgorithmException | InvalidKeySpecException throwables) {
+            } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         });

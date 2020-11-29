@@ -5,12 +5,10 @@ import database.Query;
 import utils.StringUtils;
 
 import javax.swing.*;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 public class RegUserAction {
-    public static void registerUser(String user, String pass, String verification) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public static void registerUser(String user, String pass, String verification) throws SQLException {
         if (!pass.equals(verification)) {
             JOptionPane.showMessageDialog(null, "La contraseña y su verificación no coinciden", "ERROR", JOptionPane.ERROR_MESSAGE);
             return;
