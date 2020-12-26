@@ -1,4 +1,5 @@
 .gradle/
 .idea/
 src/test/
+.nb-gradle/
 build/
