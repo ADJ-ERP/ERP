@@ -1,6 +1,6 @@
 package main;
 
-import buttonActions.RegUserAction;
+import buttonActions.userAction;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,17 +8,27 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class RegistroUsuarios {
-    public JFrame frame = new JFrame("Registro de Usuarios");
+    static {
+        WIDTH = 300;
+        HEIGHT = 400;
+    }
 
+    public JFrame frame = new JFrame("Registro de Usuarios");
     private JTextField userInput;
     private JTextField passwordInput;
+
     private JTextField rePasswordInput;
 
+    private JLabel welcomeLabel;
     private JLabel userLabel;
     private JLabel passwordLabel;
+
     private JLabel rePasswordLabel;
 
     private JButton submitButton;
+
+    private static final int WIDTH;
+    private static final int HEIGHT;
 
     public RegistroUsuarios() {
         createJField();
@@ -39,6 +49,7 @@ public class RegistroUsuarios {
     }
 
     private void createJLabel() {  // Crear todos los Labels.
+        welcomeLabel = (JLabel) createJThing(1, "Bienvenido!");
         userLabel = (JLabel) createJThing(1, "Nombre de usuario");
         passwordLabel = (JLabel) createJThing(1, "Contraseña");
         rePasswordLabel = (JLabel) createJThing(1, "Repetir contraseña");
@@ -46,9 +57,10 @@ public class RegistroUsuarios {
 
     private void createJButton() {  // Crear el botón de registro.
         submitButton = (JButton) createJThing(2, "Registrar");
+        submitButton.setBackground(Color.WHITE);
         submitButton.addActionListener(actionEvent -> {
             try {
-                RegUserAction.registerUser(userInput.getText(), passwordInput.getText(), rePasswordInput.getText(), this);
+                userAction.registerUser(userInput.getText(), passwordInput.getText(), rePasswordInput.getText(), this);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -56,10 +68,11 @@ public class RegistroUsuarios {
     }
 
     private void createJFrame() {  // Crear el Frame principal.
-        frame.setBounds(100, 100, 300, 400);  // Dimensiones por defecto.
+        frame.setBounds(100, 100, WIDTH, HEIGHT);  // Dimensiones por defecto.
         frame.setLayout(new GroupLayout(frame.getContentPane()));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setMinimumSize(new Dimension(300, 400));  // Dimensiones mínimas.
+        frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));  // Dimensiones mínimas.
+        frame.getContentPane().setBackground(Color.WHITE);
         frame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
@@ -79,12 +92,12 @@ public class RegistroUsuarios {
                 break;
             case 1:
                 thing = new JLabel();
-                ((JLabel) thing).setFont(new Font("Arial", Font.PLAIN, 15));
+                ((JLabel) thing).setFont(new Font("Arial", Font.BOLD, 15));
                 ((JLabel) thing).setText(text);
                 break;
             case 2:
                 thing = new JButton();
-                ((JButton) thing).setFont(new Font("Arial", Font.PLAIN, 15));
+                ((JButton) thing).setFont(new Font("Arial", Font.BOLD, 15));
                 ((JButton) thing).setText(text);
                 break;
             default:
@@ -102,25 +115,29 @@ public class RegistroUsuarios {
         int horSize = marginRight - marginLeft;
 
         int verSize = (int) height / 12;
-        int verPos = verSize;
+        int verPos = verSize + 20;
+
+        welcomeLabel.setBounds((int) ((width / 2) - welcomeLabel.getWidth() / 2), 15, 95, verSize);
 
         userLabel.setBounds(marginLeft, verPos, horSize, verSize);
         userInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        verPos = verPos + (2 * verSize) + 20;
+        verPos = verPos + (2 * verSize) + 15;
 
         passwordLabel.setBounds(marginLeft, verPos, horSize, verSize);
         passwordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        verPos = verPos + (2 * verSize) + 20;
+        verPos = verPos + (2 * verSize) + 15;
 
         rePasswordLabel.setBounds(marginLeft, verPos, horSize, verSize);
         rePasswordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (9.2 * verSize), 150, verSize);
+        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (9.3 * verSize), 150, verSize);
     }
 
     private void addStuffs() {  // Añadir components al frame.
+        frame.add(welcomeLabel);
+
         frame.add(userInput);
         frame.add(passwordInput);
         frame.add(rePasswordInput);
