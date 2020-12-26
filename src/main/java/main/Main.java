@@ -18,7 +18,7 @@ public class Main {
         }
         else{
             Usuarios usuario = new Usuarios();     
-            usuario.setVisible(true);
+            usuario.frame.setVisible(true);
         }    
  
     }
