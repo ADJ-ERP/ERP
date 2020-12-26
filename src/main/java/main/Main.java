@@ -11,10 +11,10 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        CreateDatabase.create("db");// creamos la base de datos
-        if(Query.isEmpty()){// comprueba si la base de datos esta vacia 
-            RegistroUsuario reg = new RegistroUsuario(); // si esta vacia hace que registres un usuario
-            reg.setVisible(true);// hacemos que salga la pantalla
+        CreateDatabase.create("db");  // Creamos la base de datos.
+        if(Query.isEmpty()) {  // Comprueba si la base de datos esta vacía.
+            RegistroUsuarios regUsr = new RegistroUsuarios();
+            regUsr.frame.setVisible(true);
         }
         else{
             Usuarios usuario = new Usuarios();     

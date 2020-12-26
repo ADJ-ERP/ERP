@@ -1,35 +1,41 @@
 /*
-Esta clase es para manejar el boton de Registrar Usuarios
+Esta clase es para manejar el botón de Registrar Usuarios
 */
 
 package buttonActions;
 
 import crypt.Pass;
 import database.Query;
+import main.RegistroUsuarios;
 import utils.StringUtils;
 
 import javax.swing.*;
 import java.sql.SQLException;
-import main.RegistroUsuario;
+
 import main.Usuarios;
 
 public class RegUserAction {
-    public static void registerUser(String user, String pass, String verification) throws SQLException {
-        if (!pass.equals(verification)) {// comprueba que la contraseña es igual que la de verificacion
+    public static void registerUser(String user, String pass, String verification, RegistroUsuarios regInstance) throws SQLException {
+        if (!pass.equals(verification)) {  // Comprueba que la contraseña es igual que la de verificación.
             JOptionPane.showMessageDialog(null, "La contraseña y su verificación no coinciden", "ERROR", JOptionPane.ERROR_MESSAGE);
+            regInstance.error();
             return;
         }
+
         if (!StringUtils.rEmpty(user, pass)) {
-            String hash = Pass.hashPass(pass);// hasheamos la contraseña 
+            String hash = Pass.hashPass(pass);  // Hasheamos la contraseña.
             if (hash != null) {
-                Query.register(user, hash);// resgistramos el ususario
+                Query.register(user, hash);  // Registramos el usuario.
+                regInstance.success();
                 Usuarios usuario = new Usuarios();     
-                usuario.setVisible(true);// mostramos la pantalla usuario
-                RegistroUsuario reg = new RegistroUsuario();
-                reg.setVisible(false);// escondemos la pantalla resgistro
+                usuario.setVisible(true);  // Mostramos la pantalla usuario
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al registrar usuario", "ERROR", JOptionPane.ERROR_MESSAGE);
+                regInstance.error();
             }
-            else JOptionPane.showMessageDialog(null, "Error al registrar usuario", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debes completar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            regInstance.error();
         }
-        else JOptionPane.showMessageDialog(null, "Debes completar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
     }
 }
