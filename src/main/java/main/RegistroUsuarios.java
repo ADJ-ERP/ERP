@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class RegistroUsuarios {
     static {
         WIDTH = 300;
-        HEIGHT = 400;
+        HEIGHT = 450;
     }
 
     public JFrame frame = new JFrame("Registro de Usuarios");
@@ -26,6 +26,7 @@ public class RegistroUsuarios {
     private JLabel rePasswordLabel;
 
     private JButton submitButton;
+    private JButton loginButton;
 
     private static final int WIDTH;
     private static final int HEIGHT;
@@ -64,6 +65,14 @@ public class RegistroUsuarios {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+        });
+
+        loginButton = (JButton) createJThing(2, "Ya tengo cuenta");  // Iniciar sesión si ya tienes cuenta.
+        loginButton.setBackground(Color.WHITE);
+        loginButton.addActionListener(actionEvent -> {
+            frame.dispose();
+            Usuarios usr = new Usuarios();
+            usr.frame.setVisible(true);
         });
     }
 
@@ -114,7 +123,7 @@ public class RegistroUsuarios {
         int marginRight = (int) width - marginLeft;
         int horSize = marginRight - marginLeft;
 
-        int verSize = (int) height / 12;
+        int verSize = (int) height / 14;
         int verPos = verSize + 20;
 
         welcomeLabel.setBounds((int) ((width / 2) - welcomeLabel.getWidth() / 2), 15, 95, verSize);
@@ -132,7 +141,9 @@ public class RegistroUsuarios {
         rePasswordLabel.setBounds(marginLeft, verPos, horSize, verSize);
         rePasswordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (9.3 * verSize), 150, verSize);
+        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (9.5 * verSize), 150, verSize);
+
+        loginButton.setBounds((int) ((width / 2) - loginButton.getWidth() / 2), (int) (11.3 * verSize), 200, verSize);
     }
 
     private void addStuffs() {  // Añadir components al frame.
@@ -147,6 +158,7 @@ public class RegistroUsuarios {
         frame.add(rePasswordLabel);
 
         frame.add(submitButton);
+        frame.add(loginButton);
     }
 
     public void success() {  // acciones onSuccess.
