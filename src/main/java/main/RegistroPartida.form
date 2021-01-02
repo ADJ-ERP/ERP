@@ -230,7 +230,7 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Numero Parida"/>
+        <Property name="text" type="java.lang.String" value="Numero Partida"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="jBA&#xf1;adir">

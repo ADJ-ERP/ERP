@@ -86,7 +86,7 @@ public class RegistroPartida extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Numero Parida");
+        jLabel1.setText("Numero Partida");
 
         jBAñadir.setText("Añadir");
 
