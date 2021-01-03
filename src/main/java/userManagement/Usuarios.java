@@ -1,6 +1,7 @@
 package userManagement;
 
 import buttonActions.userAction;
+import utils.LanguageUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ public class Usuarios {
     private static final int WIDTH;
     private static final int HEIGHT;
 
-    public JFrame frame = new JFrame("Iniciar sesión");
+    public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.login", "Iniciar sesión"));
 
     private JTextField userInput;
     private JTextField passwordInput;
@@ -48,13 +49,13 @@ public class Usuarios {
     }
 
     private void createJLabel() {  // Crear todos los Labels.
-        infoLabel = (JLabel) createJThing(1, "Bienvenido!");
-        userLabel = (JLabel) createJThing(1, "Nombre de usuario");
-        passwordLabel = (JLabel) createJThing(1, "Contraseña");
+        infoLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.welcome", "Bienvenido!"));
+        userLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.username", "Nombre de usuario"));
+        passwordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.password", "Contraseña"));
     }
 
     private void createJButton() {  // Crear el botón de registro.
-        submitButton = (JButton) createJThing(2, "Iniciar");
+        submitButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.login", "Iniciar sesión"));
         submitButton.setBackground(Color.WHITE);
         submitButton.addActionListener(actionEvent -> {
             try {
@@ -64,7 +65,7 @@ public class Usuarios {
             }
         });
 
-        createAccButton = (JButton) createJThing(2, "Crear cuenta");
+        createAccButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.createAccount", "Crear cuenta"));
         createAccButton.setBackground(Color.WHITE);
         createAccButton.addActionListener(actionEvent -> {  // registrar usuario nuevo.
             frame.dispose();
