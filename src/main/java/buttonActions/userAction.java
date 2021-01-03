@@ -6,6 +6,7 @@ package buttonActions;
 
 import crypt.Pass;
 import database.Query;
+import main.Principal;
 import main.RegistroUsuarios;
 import main.Usuarios;
 import utils.StringUtils;
@@ -68,7 +69,11 @@ public class userAction {
 
             if (Pass.authenticate(pass, Query.getHash(user))) {
                 usrInstance.success();
-                JOptionPane.showMessageDialog(null, ":DDDD", "YAY", JOptionPane.INFORMATION_MESSAGE);
+
+                //  Iniciamos la ventana principal del programa.
+                Principal mainWindow = new Principal(user);
+                mainWindow.setVisible(true);
+
             } else {
                 JOptionPane.showMessageDialog(null, "Contraseña incorrecta.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 usrInstance.error();
