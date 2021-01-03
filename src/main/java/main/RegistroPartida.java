@@ -6,6 +6,8 @@
 package main;
 
 import javax.swing.*;
+import buttonActions.AddPartidaAction;
+import java.sql.SQLException;
 
 /**
  *
@@ -29,7 +31,7 @@ public class RegistroPartida extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jBAñadir = new javax.swing.JButton();
+        jBAdd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextANumeroPartida = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
@@ -88,7 +90,12 @@ public class RegistroPartida extends javax.swing.JFrame {
 
         jLabel1.setText("Numero Partida");
 
-        jBAñadir.setText("Añadir");
+        jBAdd.setText("Añadir");
+        jBAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAddActionPerformed(evt);
+            }
+        });
 
         jTextANumeroPartida.setColumns(20);
         jTextANumeroPartida.setRows(5);
@@ -265,7 +272,7 @@ public class RegistroPartida extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jScrollPane20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jBAñadir, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jBAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel19))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
@@ -357,12 +364,26 @@ public class RegistroPartida extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane20)
-                            .addComponent(jBAñadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jBAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAddActionPerformed
+        try {
+                AddPartidaAction.registerPartida(Integer.parseInt(jTextANumeroPartida.getText()), jTextAFechaAlta.getText(), jTextATipo.getText(), 
+                        jTextACentroVenta.getText(), Integer.parseInt(jTextANumeroMatadero.getText()), jTextAProveedor.getText(),
+                        Integer.parseInt(jTextANumeroExplotacion.getText()), jTextAPaisNacido.getText(), jTextAPaisSacrificado.getText(),
+                        jTextATipoAnimal.getText(), Integer.parseInt(jTextATotalAnimales.getText()), Integer.parseInt(jTextADelNumero.getText()), 
+                        Integer.parseInt(jTextAAlNumero.getText()), Integer.parseInt(jTextATotalKgBrutos.getText()),
+                        Integer.parseInt(jTextAPorcentageOreo.getText()), Integer.parseInt(jTextATotalKgNetos.getText()), 
+                        Integer.parseInt(jTextAImporteCosto.getText()), jTextANotas.getText(), this);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+    }//GEN-LAST:event_jBAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -394,7 +415,7 @@ public class RegistroPartida extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBAñadir;
+    private javax.swing.JButton jBAdd;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

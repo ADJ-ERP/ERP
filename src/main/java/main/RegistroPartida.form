@@ -104,7 +104,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jScrollPane20" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jBAñadir" min="-2" pref="194" max="-2" attributes="0"/>
+                              <Component id="jBAdd" min="-2" pref="194" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jLabel19" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -218,7 +218,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jScrollPane20" max="32767" attributes="0"/>
-                          <Component id="jBAñadir" max="32767" attributes="0"/>
+                          <Component id="jBAdd" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -233,10 +233,13 @@
         <Property name="text" type="java.lang.String" value="Numero Partida"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jBA&#xf1;adir">
+    <Component class="javax.swing.JButton" name="jBAdd">
       <Properties>
         <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBAddActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
