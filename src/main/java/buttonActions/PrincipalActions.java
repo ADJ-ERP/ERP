@@ -1,7 +1,7 @@
 package buttonActions;
 
 import main.Principal;
-import main.Usuarios;
+import userManagement.Usuarios;
 
 public class PrincipalActions {
     public static void onCloseSession(Principal p) {

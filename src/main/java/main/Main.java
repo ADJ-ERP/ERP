@@ -6,10 +6,14 @@ package main;
 
 import database.CreateDatabase;
 import database.Query;
+import userManagement.RegistroUsuarios;
+import userManagement.Usuarios;
 
 import java.sql.SQLException;
 
 public class Main {
+    public static final String NAME = "ADJERP";
+
     public static void main(String[] args) throws SQLException {
         CreateDatabase.create("db");  // Creamos la base de datos.
         if(Query.isEmpty()) {  // Comprueba si la base de datos esta vacía.
@@ -17,7 +21,7 @@ public class Main {
             regUsr.frame.setVisible(true);
         }
         else{
-            Usuarios usuario = new Usuarios();     
+            Usuarios usuario = new Usuarios();
             usuario.frame.setVisible(true);            
         }    
  

@@ -47,7 +47,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         // jMItemRegistrarUser = new javax.swing.JMenuItem();
         jMItemEditarUser = new javax.swing.JMenuItem();
-        jMItemCerrarSesion = new JMenuItem();
+        jMItemCloseSession = new JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMItemRegistrarPart = new javax.swing.JMenuItem();
         jMItemVerPart = new javax.swing.JMenuItem();
@@ -67,11 +67,12 @@ public class Principal extends javax.swing.JFrame {
 
         jMItemEditarUser.setText(String.format("Editar %s", user));
         jMenu1.add(jMItemEditarUser);
+
         jMenu1.addSeparator();
 
-        jMItemCerrarSesion.setText("Cerrar Sesión");
-        jMItemCerrarSesion.addActionListener(actionEvent -> PrincipalActions.onCloseSession(this));
-        jMenu1.add(jMItemCerrarSesion);
+        jMItemCloseSession.setText("Cerrar Sesión");
+        jMItemCloseSession.addActionListener(actionEvent -> PrincipalActions.onCloseSession(this));
+        jMenu1.add(jMItemCloseSession);
 
         jMenuBar1.add(jMenu1);
 
@@ -118,7 +119,7 @@ public class Principal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -143,7 +144,7 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jMItemEditarPart;
     private javax.swing.JMenuItem jMItemEditarUser;
-    private JMenuItem jMItemCerrarSesion;
+    private JMenuItem jMItemCloseSession;
     private javax.swing.JMenuItem jMItemRegistrarPart;
     // private javax.swing.JMenuItem jMItemRegistrarUser;
     private javax.swing.JMenuItem jMItemVerPart;
