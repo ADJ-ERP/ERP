@@ -4,16 +4,20 @@ Esta clase es para manejar las Queries realizadas en la Base de Datos
 
 package database;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Query {
     public static void register(String userName, String pass) throws SQLException {  // Registra usuarios.
+        String query = "INSERT OR IGNORE INTO usuarios(usuario,pass) VALUES (?, ?);";
         if (CreateDatabase.c != null) {  // Comprueba que la Base de Datos este creada.
-            Statement stmt = CreateDatabase.c.createStatement();
-            String addUser = String.format("INSERT OR IGNORE INTO usuarios(usuario,pass) VALUES ('%s', '%s');", userName, pass);  // Añade el usuario.
-            stmt.executeUpdate(addUser);
+            PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);  // Evitar que pongan inputs no deseados para acceder a información privada o tirarla.
+            stmt.setString(1, userName);
+            stmt.setString(2, pass);
+
+            stmt.executeUpdate();  // Añade el usuario.
             stmt.close();
             CreateDatabase.c.commit();
         }
@@ -32,9 +36,12 @@ public class Query {
     }
 
     public static boolean userExists(String user) throws SQLException {  // Comprobar si el usuario existe.
+        String query = "SELECT usuario FROM usuarios WHERE usuario LIKE ?;";
         if (CreateDatabase.c != null) {
-            Statement stmt = CreateDatabase.c.createStatement();
-            ResultSet rs = stmt.executeQuery(String.format("SELECT usuario FROM usuarios WHERE usuario LIKE '%s';", user));
+            PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+            stmt.setString(1, user);
+
+            ResultSet rs = stmt.executeQuery();
             boolean exists = rs.next();
             rs.close();
             stmt.close();
@@ -44,9 +51,12 @@ public class Query {
     }
 
     public static String getHash(String user) throws SQLException {  // Sacar el hash de la base de datos.
+        String query = "SELECT pass FROM usuarios WHERE usuario LIKE ?;";
         if (CreateDatabase.c != null) {
-            Statement stmt = CreateDatabase.c.createStatement();
-            ResultSet rs = stmt.executeQuery(String.format("SELECT pass FROM usuarios WHERE usuario LIKE '%s';", user));
+            PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+            stmt.setString(1, user);
+
+            ResultSet rs = stmt.executeQuery();
             String pass = rs.getString("pass");
             rs.close();
             stmt.close();

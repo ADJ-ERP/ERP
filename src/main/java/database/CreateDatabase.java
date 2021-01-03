@@ -24,6 +24,7 @@ public class CreateDatabase {
 
     private static void createTables() throws SQLException {  // Esto contiene toda la creación de tablas.
         createUserTable();
+        createPartidaTable();
     }
 
     private static void createUserTable() throws SQLException {  // Creamos la tabla Usuarios.
@@ -33,6 +34,35 @@ public class CreateDatabase {
                 "`usuario` TEXT PRIMARY KEY NOT NULL," +
                 "`pass` TEXT NOT NULL);";
         stmt.executeUpdate(userTable);
+        stmt.close();
+        c.commit();
+    }
+    
+    private static void createPartidaTable() throws SQLException {  // Creamos la tabla Partidas.
+        Statement stmt = c.createStatement();
+
+        String partidaTable = "CREATE TABLE IF NOT EXISTS `partidas`(" +
+                "`numPartida` INT PRIMARY KEY NOT NULL," +
+                "`fechaAlta` TEXT NOT NULL," +
+                "`tipo` TEXT NOT NULL," +
+                "`centroVenta` TEXT NOT NULL," +
+                "`numMatadero` INT NOT NULL," +
+                "`proveedor` TEXT NOT NULL," +
+                "`numExplotacion` INT NOT NULL," +
+                "`paisNacido` TEXT NOT NULL," +
+                "`paisSacrificado` TEXT NOT NULL," +
+                "`tipoAnimal` TEXT NOT NULL," +
+                "`totalAnimales` INT NOT NULL," +  
+                "`delNum` INT NOT NULL," +  
+                "`alNum` INT NOT NULL," +  
+                "`totalKgBrutos` INT NOT NULL," +
+                "`porcenOreo` INT NOT NULL," +
+                "`totalkgNetos` INT NOT NULL," +
+                "`importeTotalCosto` INT NOT NULL," +
+                "`notas` TEXT NULL," +
+                "`clavePagada` BOOLEAN NULL," +
+                "`claveSituacion` BOOLEAN NULL);";
+        stmt.executeUpdate(partidaTable);
         stmt.close();
         c.commit();
     }
