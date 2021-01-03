@@ -1,7 +1,7 @@
 package userManagement;
 
 import buttonActions.userAction;
-import userManagement.Usuarios;
+import utils.LanguageUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +14,7 @@ public class RegistroUsuarios {
         HEIGHT = 450;
     }
 
-    public JFrame frame = new JFrame("Registro de Usuarios");
+    public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.register", "Registrar"));
     private JTextField userInput;
     private JTextField passwordInput;
 
@@ -51,14 +51,14 @@ public class RegistroUsuarios {
     }
 
     private void createJLabel() {  // Crear todos los Labels.
-        welcomeLabel = (JLabel) createJThing(1, "Bienvenido!");
-        userLabel = (JLabel) createJThing(1, "Nombre de usuario");
-        passwordLabel = (JLabel) createJThing(1, "Contraseña");
-        rePasswordLabel = (JLabel) createJThing(1, "Repetir contraseña");
+        welcomeLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.welcome", "Bienvenido!"));
+        userLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.username", "Nombre de usuario"));
+        passwordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.password", "Contraseña"));
+        rePasswordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.repassword", "Repetir contraseña"));
     }
 
     private void createJButton() {  // Crear el botón de registro.
-        submitButton = (JButton) createJThing(2, "Registrar");
+        submitButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.register", "Registrar"));
         submitButton.setBackground(Color.WHITE);
         submitButton.addActionListener(actionEvent -> {
             try {
@@ -68,7 +68,7 @@ public class RegistroUsuarios {
             }
         });
 
-        loginButton = (JButton) createJThing(2, "Ya tengo cuenta");  // Iniciar sesión si ya tienes cuenta.
+        loginButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.alreadyAcc", "Ya tengo cuenta"));  // Iniciar sesión si ya tienes cuenta.
         loginButton.setBackground(Color.WHITE);
         loginButton.addActionListener(actionEvent -> {
             frame.dispose();

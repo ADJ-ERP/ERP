@@ -1,0 +1,22 @@
+{
+  "language.code": "es_es",
+  "language.name": "Español",
+  "language.region": "España",
+
+  "users.login": "Iniciar sesión",
+  "users.welcome": "Bienvenido!",
+  "users.username": "Nombre de usuario",
+  "users.password": "Contraseña",
+  "users.repassword": "Repetir contraseña",
+  "users.createAccount": "Crear cuenta",
+  "users.register": "Registrar",
+  "users.alreadyAcc": "Ya tengo cuenta",
+
+  "error.passNoMatch": "La contraseña y su verificación no coinciden.",
+  "error.userExists": "Este usuario ya existe.",
+  "error.registerError": "Error al registrar usuario.",
+  "error.notFilled": "Debes completar todos los campos.",
+  "error.userNotExists": "El usuario introducido no existe.",
+  "error.loginError": "Error al iniciar sesión.",
+  "error.passwordError": "Contraseña incorrecta."
+}
