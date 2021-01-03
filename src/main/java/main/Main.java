@@ -1,7 +1,3 @@
-/*
-Esta clase es para manejar todo el programa
-*/
-
 package main;
 
 import database.CreateDatabase;
@@ -23,3 +19,18 @@ public class Main {
  
     }
 }
+=======
+package main;
+
+
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        System.out.println("Hello World");
+
+    }
+
+}
+
