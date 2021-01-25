@@ -69,7 +69,7 @@ public class Query {
             String proveedor, int numExplotacion, String paisNacido, String paisSacrificado, String tipoAnimal, int totalAnimales, int delNum, 
             int alNum, int totalKgBrutos, int porcenOreo, int totalKgNetos, int importeTotalCosto, String notas) throws SQLException {  // Registra usuarios.
         String query = "INSERT OR IGNORE INTO partidas(numPartida, fechaAlta, tipo, centroVenta, numMatadero, "
-                + "tipo, proveedor, numExplotacion, paisNacido, paisSacrificado, tipoAnimal, totalAnimales, "
+                + "proveedor, numExplotacion, paisNacido, paisSacrificado, tipoAnimal, totalAnimales, "
                 + "delNum, alNum, totalKgBrutos, porcenOreo, totalkgNetos, importeTotalCosto, notas) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         if (CreateDatabase.c != null) {  // Comprueba que la Base de Datos este creada.
