@@ -8,6 +8,8 @@ package main;
 import javax.swing.*;
 import buttonActions.AddPartidaAction;
 import java.sql.SQLException;
+import utils.LanguageUtils;
+import utils.StringUtils;
 
 /**
  *
@@ -373,18 +375,53 @@ public class RegistroPartida extends javax.swing.JFrame {
 
     private void jBAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAddActionPerformed
         try {
-                AddPartidaAction.registerPartida(Integer.parseInt(jTextANumeroPartida.getText()), jTextAFechaAlta.getText(), jTextATipo.getText(), 
-                        jTextACentroVenta.getText(), Integer.parseInt(jTextANumeroMatadero.getText()), jTextAProveedor.getText(),
-                        Integer.parseInt(jTextANumeroExplotacion.getText()), jTextAPaisNacido.getText(), jTextAPaisSacrificado.getText(),
-                        jTextATipoAnimal.getText(), Integer.parseInt(jTextATotalAnimales.getText()), Integer.parseInt(jTextADelNumero.getText()), 
-                        Integer.parseInt(jTextAAlNumero.getText()), Integer.parseInt(jTextATotalKgBrutos.getText()),
-                        Integer.parseInt(jTextAPorcentageOreo.getText()), Integer.parseInt(jTextATotalKgNetos.getText()), 
-                        Integer.parseInt(jTextAImporteCosto.getText()), jTextANotas.getText(), this);
+            if(!StringUtils.rEmpty(jTextANumeroPartida.getText(), jTextAFechaAlta.getText(), jTextATipo.getText(), 
+                    jTextACentroVenta.getText(), jTextANumeroMatadero.getText(), jTextAProveedor.getText(),
+                    jTextANumeroExplotacion.getText(), jTextAPaisNacido.getText(), jTextAPaisSacrificado.getText(),
+                    jTextATipoAnimal.getText(), jTextATotalAnimales.getText(), jTextADelNumero.getText(), 
+                    jTextAAlNumero.getText(), jTextATotalKgBrutos.getText(),
+                    jTextAPorcentageOreo.getText(), jTextATotalKgNetos.getText(), 
+                    jTextAImporteCosto.getText(), jTextANotas.getText())){
+                
+                AddPartidaAction.addPartida(Integer.parseInt(jTextANumeroPartida.getText()), jTextAFechaAlta.getText(), jTextATipo.getText(), 
+                    jTextACentroVenta.getText(), Integer.parseInt(jTextANumeroMatadero.getText()), jTextAProveedor.getText(),
+                    Integer.parseInt(jTextANumeroExplotacion.getText()), jTextAPaisNacido.getText(), jTextAPaisSacrificado.getText(),
+                    jTextATipoAnimal.getText(), Integer.parseInt(jTextATotalAnimales.getText()), Integer.parseInt(jTextADelNumero.getText()), 
+                    Integer.parseInt(jTextAAlNumero.getText()), Integer.parseInt(jTextATotalKgBrutos.getText()),
+                    Integer.parseInt(jTextAPorcentageOreo.getText()), Integer.parseInt(jTextATotalKgNetos.getText()), 
+                    Integer.parseInt(jTextAImporteCosto.getText()), jTextANotas.getText(), this);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.notFilled", "Debes completar todos los campos"), "ERROR", JOptionPane.ERROR_MESSAGE);
+                clean();
+                return;
+            }
+            
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
     }//GEN-LAST:event_jBAddActionPerformed
 
+    public void clean() {  // acciones onError.
+        jTextANumeroPartida.setText("");
+        jTextAFechaAlta.setText(""); 
+        jTextATipo.setText("");
+        jTextACentroVenta.setText("");
+        jTextANumeroMatadero.setText("");
+        jTextAProveedor.setText("");
+        jTextANumeroExplotacion.setText(""); 
+        jTextAPaisNacido.setText("");
+        jTextAPaisSacrificado.setText("");
+        jTextATipoAnimal.setText("");
+        jTextATotalAnimales.setText(""); 
+        jTextADelNumero.setText("");
+        jTextAAlNumero.setText("");
+        jTextATotalKgBrutos.setText("");
+        jTextAPorcentageOreo.setText(""); 
+        jTextATotalKgNetos.setText("");
+        jTextAImporteCosto.setText(""); 
+        jTextANotas.setText("");
+    }
     /**
      * @param args the command line arguments
      */

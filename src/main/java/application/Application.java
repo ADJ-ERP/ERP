@@ -4,6 +4,7 @@ import main.Main;
 
 import javax.swing.*;
 import java.awt.*;
+import main.RegistroPartida;
 
 public class Application extends JFrame {
     static {
@@ -34,8 +35,7 @@ public class Application extends JFrame {
         // La idea es que cada frame es una clase de estas de extends JFrame y simplemente las llamamos desde las tabs, más fácil de usar.
         tabs.addTab("Usuarios", f2.getContentPane());
 
-        JFrame f3 = new JFrame();
-        f3.add(new JButton("b2"));
+        RegistroPartida f3 = new RegistroPartida(); // pone la vista de Registro de Partidas
         tabs.addTab("Partidas", f3.getContentPane());
 
         JFrame f4 = new JFrame();

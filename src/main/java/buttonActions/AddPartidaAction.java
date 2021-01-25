@@ -8,6 +8,7 @@ package buttonActions;
 import crypt.Pass;
 import database.Query;
 import java.sql.SQLException;
+import static java.util.Collections.list;
 import javax.swing.JOptionPane;
 import main.RegistroPartida;
 import utils.LanguageUtils;
@@ -18,9 +19,10 @@ import utils.StringUtils;
  * @author angel
  */
 public class AddPartidaAction {
-    public static void registerPartida(int numPartida, String fechaAlta, String tipo, String centroVenta, int numMatadero,
+    public static void addPartida(int numPartida, String fechaAlta, String tipo, String centroVenta, int numMatadero,
             String proveedor, int numExplotacion, String paisNacido, String paisSacrificado, String tipoAnimal, int totalAnimales, int delNum, 
-            int alNum, int totalKgBrutos, int porcenOreo, int totalKgNetos, int importeTotalCosto, String notas, RegistroPartida aThis) throws SQLException {
+            int alNum, int totalKgBrutos, int porcenOreo, int totalKgNetos, int importeTotalCosto, String notas, RegistroPartida regInstance) throws SQLException {
+        
         fechaAlta = fechaAlta.trim();
         tipo = tipo.trim();
         centroVenta = centroVenta.trim();
@@ -28,7 +30,20 @@ public class AddPartidaAction {
         paisNacido = paisNacido.trim();
         paisSacrificado = paisSacrificado.trim();
         tipoAnimal = tipoAnimal.trim();
-        notas = notas.trim();       
+        notas = notas.trim();      
+        
+        if(Query.partidaExists(numPartida)){
+            JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.userExists", "Ya existe un usuario con ese nombre de usuario."), "ERROR", JOptionPane.ERROR_MESSAGE);
+            regInstance.clean();
+            return;
+        }
+        else{
+            Query.registerPartida(numPartida, fechaAlta, tipo, centroVenta, numMatadero, proveedor, numExplotacion, paisNacido, 
+                    paisSacrificado, tipoAnimal, totalAnimales, delNum, alNum, totalKgBrutos, porcenOreo, totalKgNetos, importeTotalCosto, notas);
+            regInstance.clean();
+        }
+        
+        
 
 //        if (!pass.equals(verification)) {  // Comprueba que la contraseña es igual que la de verificación.
 //            JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.passNoMatch", "La contraseña y su verificación no coinciden."), "ERROR", JOptionPane.ERROR_MESSAGE);

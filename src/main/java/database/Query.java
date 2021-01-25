@@ -70,8 +70,8 @@ public class Query {
             int alNum, int totalKgBrutos, int porcenOreo, int totalKgNetos, int importeTotalCosto, String notas) throws SQLException {  // Registra usuarios.
         String query = "INSERT OR IGNORE INTO partidas(numPartida, fechaAlta, tipo, centroVenta, numMatadero, "
                 + "tipo, proveedor, numExplotacion, paisNacido, paisSacrificado, tipoAnimal, totalAnimales, "
-                + "delNum, alNum, totalKgBrutos, porcenOreo, totalkgNetos, importeTotalCosto, notas, clavePagada, claveSituacion) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                + "delNum, alNum, totalKgBrutos, porcenOreo, totalkgNetos, importeTotalCosto, notas) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         if (CreateDatabase.c != null) {  // Comprueba que la Base de Datos este creada.
             PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);  // Evitar que pongan inputs no deseados para acceder a información privada o tirarla.
             stmt.setInt(1, numPartida);
@@ -93,21 +93,24 @@ public class Query {
             stmt.setInt(17, importeTotalCosto);
             stmt.setString(18, notas);
 
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
             stmt.executeUpdate();  // Añade el usuario.
             stmt.close();
             CreateDatabase.c.commit();
         }
+    }
+    
+    public static boolean partidaExists(int numPartida) throws SQLException {  // Comprobar si la partida existe.
+        String query = "SELECT numPartida FROM partidas WHERE numPartida LIKE ?;";
+        if (CreateDatabase.c != null) {
+            PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+            stmt.setInt(1, numPartida);
+
+            ResultSet rs = stmt.executeQuery();
+            boolean exists = rs.next();
+            rs.close();
+            stmt.close();
+            return exists;
+        }
+        return false;
     }
 }
