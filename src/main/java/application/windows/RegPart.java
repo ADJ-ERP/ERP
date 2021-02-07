@@ -1,5 +1,7 @@
 package application.windows;
 
+import utils.StringUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -77,7 +79,9 @@ public class RegPart extends JFrame {
         submitButton.setText("Aceptar");
         submitButton.setBounds(500, 450, 150, 30);
         submitButton.addActionListener(actionEvent -> {
-
+            if (inputCheck()) {
+                System.out.println("aa");
+            }
         });
     }
 
@@ -231,5 +235,27 @@ public class RegPart extends JFrame {
         field.setFont(new Font("Arial", Font.PLAIN, 14));
         field.setMargin(new Insets(1, 1, 1, 1));
         return field;
+    }
+
+    private boolean inputCheck() {
+        if (!StringUtils.areNotEmpty(numeroPartidaTextField.getText(), fechaAltaTextField.getText(),
+                tipoTextField.getText(), centroVentaTextField.getText(), numeroMataderoTextField.getText(),
+                proveedorTextField.getText(), numeroExplTextField.getText(), paisNacimientoTextField.getText(),
+                paisSacrificioTextField.getText(), tipoAnimalTextField.getText(), totalAnimalesTextField.getText(),
+                delNumTextField.getText(), alNumTextField.getText(), totalKGBrutoTextField.getText(),
+                porOreoTextField.getText(), totalKGNetoTextField.getText(), costoTotalTextField.getText(),
+                notasTextField.getText())) {
+            JOptionPane.showMessageDialog(null, "Debes completar todos los campos!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
+        if (StringUtils.isNotInt(numeroPartidaTextField.getText(), numeroMataderoTextField.getText(),
+                numeroExplTextField.getText(), totalAnimalesTextField.getText(), delNumTextField.getText(),
+                alNumTextField.getText(), totalKGBrutoTextField.getText(), porOreoTextField.getText(),
+                totalKGNetoTextField.getText(), costoTotalTextField.getText())) {
+            JOptionPane.showMessageDialog(null, "Has introducido letras donde van números :(", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 }

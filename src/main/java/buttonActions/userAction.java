@@ -33,7 +33,7 @@ public class userAction {
             return;
         }
 
-        if (!StringUtils.rEmpty(user, pass)) {
+        if (StringUtils.areNotEmpty(user, pass)) {
             String hash = Pass.hashPass(pass);  // Hasheamos la contraseña.
             if (hash != null) {
                 Query.register(user, hash);  // Registramos el usuario.
@@ -54,7 +54,7 @@ public class userAction {
         user = user.trim();
         pass = pass.trim();
 
-        if (!StringUtils.rEmpty(user, pass)) {
+        if (StringUtils.areNotEmpty(user, pass)) {
             if (!Query.userExists(user)) {  // Check de si el usuario que se intenta registrar existe.
                 JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.userNotExists", "El usuario introducido no existe."), "ERROR", JOptionPane.ERROR_MESSAGE);
                 usrInstance.error();
