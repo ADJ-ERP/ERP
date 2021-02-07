@@ -22,7 +22,7 @@ public class Query {
             CreateDatabase.c.commit();
         }
     }
-    
+
     public static boolean isEmpty() throws SQLException {  // Comprueba si esta vacía la Base de Datos.
         if (CreateDatabase.c != null) {
             Statement stmt = CreateDatabase.c.createStatement();
@@ -64,7 +64,7 @@ public class Query {
         }
         return null;
     }
-    
+
     public static void registerPartida(int numPartida, String fechaAlta, String tipo, String centroVenta, int numMatadero,
             String proveedor, int numExplotacion, String paisNacido, String paisSacrificado, String tipoAnimal, int totalAnimales, int delNum, 
             int alNum, int totalKgBrutos, int porcenOreo, int totalKgNetos, int importeTotalCosto, String notas) throws SQLException {  // Registra usuarios.
@@ -92,19 +92,6 @@ public class Query {
             stmt.setInt(16, totalKgNetos);
             stmt.setInt(17, importeTotalCosto);
             stmt.setString(18, notas);
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
             stmt.executeUpdate();  // Añade el usuario.
             stmt.close();
             CreateDatabase.c.commit();

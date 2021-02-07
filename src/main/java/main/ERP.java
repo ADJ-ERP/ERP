@@ -12,7 +12,7 @@ import utils.LanguageUtils;
 
 import java.sql.SQLException;
 
-public class Main {
+public class ERP {
     public static final String NAME = "ADJERP";
 
     public static String lang = "es_es";

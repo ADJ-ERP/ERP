@@ -1,14 +1,15 @@
 package application;
 
-import main.Main;
+import application.tabs.Partida;
+import main.ERP;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class Application extends JFrame {
     static {
-        WIDTH = 426;
-        HEIGHT = 240;
+        WIDTH = 480;
+        HEIGHT = 300;
     }
 
     private static final int WIDTH;
@@ -23,32 +24,31 @@ public class Application extends JFrame {
 
     private void initComponents() {
         this.setBounds(100, 100, 768, 480);
-        this.setTitle(String.format("%s - %s", Main.NAME, this.user));
+        this.setTitle(String.format("%s - %s", ERP.NAME, this.user));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
         JTabbedPane tabs = new JTabbedPane();
 
-        JFrame f2 = new JFrame();
-        f2.add(new JButton("b1"));
+        JPanel p1 = new JPanel();
+        p1.add(new JButton("b1"));
         // La idea es que cada frame es una clase de estas de extends JFrame y simplemente las llamamos desde las tabs, más fácil de usar.
-        tabs.addTab("Usuarios", f2.getContentPane());
+        tabs.addTab("Usuarios", p1);
 
-        JFrame f3 = new JFrame();
-        f3.add(new JButton("b2"));
-        tabs.addTab("Partidas", f3.getContentPane());
+        Partida p = new Partida();
+        tabs.add("Partidas", p);
 
-        JFrame f4 = new JFrame();
-        f4.add(new JButton("b3"));
-        tabs.addTab("Clientes", f4.getContentPane());
+        JPanel p3 = new JPanel();
+        p3.add(new JButton("b3"));
+        tabs.addTab("Clientes", p3);
 
-        JFrame f5 = new JFrame();
-        f5.add(new JButton("b4"));
-        tabs.addTab("Albaranes", f5.getContentPane());
+        JPanel p4 = new JPanel();
+        p4.add(new JButton("b4"));
+        tabs.addTab("Albaranes", p4);
 
-        JFrame f6 = new JFrame();
-        f6.add(new JButton("b5"));
-        tabs.addTab("Facturas", f6.getContentPane());
+        JPanel p5 = new JPanel();
+        p5.add(new JButton("b5"));
+        tabs.addTab("Facturas", p5);
 
         this.add(tabs);
     }
