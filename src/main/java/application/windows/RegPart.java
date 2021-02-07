@@ -7,6 +7,8 @@ import java.awt.event.WindowEvent;
 
 public class RegPart extends JFrame {
 
+    private final JPanel container;
+
     private JLabel numeroPartidaLabel;
     private JLabel fechaAltaLabel;
     private JLabel tipoLabel;
@@ -26,20 +28,61 @@ public class RegPart extends JFrame {
     private JLabel costoTotalLabel;
     private JLabel notasLabel;
 
+    private JTextField numeroPartidaTextField;
+    private JTextField fechaAltaTextField;
+    private JTextField tipoTextField;
+    private JTextField centroVentaTextField;
+    private JTextField numeroMataderoTextField;
+    private JTextField proveedorTextField;
+    private JTextField numeroExplTextField;
+    private JTextField paisNacimientoTextField;
+    private JTextField paisSacrificioTextField;
+    private JTextField tipoAnimalTextField;
+    private JTextField totalAnimalesTextField;
+    private JTextField delNumTextField;
+    private JTextField alNumTextField;
+    private JTextField totalKGBrutoTextField;
+    private JTextField porOreoTextField;
+    private JTextField totalKGNetoTextField;
+    private JTextField costoTotalTextField;
+    private JTextField notasTextField;
+
+    private JButton submitButton;
+
 
     public RegPart() {
+        container = new JPanel();
+        container.setLayout(null);
+
         createJLabel();
+
+        createJTextField();
+
+        createJButton();
 
         addStuffs(numeroPartidaLabel, fechaAltaLabel, tipoLabel, centroVentaLabel, numeroMataderoLabel,
                 proveedorLabel, numeroExplLabel, paisNacimientoLabel, paisSacrificioLabel, tipoAnimalLabel,
                 totalAnimalesLabel, delNumLabel, alNumLabel, totalKGBrutoLabel, porOreoLabel, totalKGNetoLabel,
-                costoTotalLabel, notasLabel);
+                costoTotalLabel, notasLabel, numeroPartidaTextField, fechaAltaTextField, tipoTextField,
+                centroVentaTextField, numeroMataderoTextField, proveedorTextField, numeroExplTextField,
+                paisNacimientoTextField, paisSacrificioTextField, tipoAnimalTextField, totalAnimalesTextField,
+                delNumTextField, alNumTextField, totalKGBrutoTextField, porOreoTextField, totalKGNetoTextField,
+                costoTotalTextField, notasTextField, submitButton);
 
         createJFrame();
     }
 
+    private void createJButton() {
+        submitButton = new JButton();
+        submitButton.setText("Aceptar");
+        submitButton.setBounds(500, 450, 150, 30);
+        submitButton.addActionListener(actionEvent -> {
+
+        });
+    }
+
     private void createJFrame() {
-        setBounds(100, 100, 840, 550);
+        setBounds(100, 100, 770, 550);
         setTitle("Registrar Partida");
         setResizable(false);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -109,10 +152,67 @@ public class RegPart extends JFrame {
         notasLabel.setBounds(400, 370, 150, 30);
     }
 
+    private void createJTextField() {
+        numeroPartidaTextField = field();
+        numeroPartidaTextField.setBounds(170, 20, 180, 30);
+
+        fechaAltaTextField = field();
+        fechaAltaTextField.setBounds(170, 70, 180, 30);
+
+        tipoTextField = field();
+        tipoTextField.setBounds(170, 120, 180, 30);
+
+        centroVentaTextField = field();
+        centroVentaTextField.setBounds(170, 170, 180, 30);
+
+        numeroMataderoTextField = field();
+        numeroMataderoTextField.setBounds(170, 220, 180, 30);
+
+        proveedorTextField = field();
+        proveedorTextField.setBounds(170, 270, 180, 30);
+
+        numeroExplTextField = field();
+        numeroExplTextField.setBounds(170, 320, 180, 30);
+
+        paisNacimientoTextField = field();
+        paisNacimientoTextField.setBounds(170, 370, 180, 30);
+
+        paisSacrificioTextField = field();
+        paisSacrificioTextField.setBounds(170, 420, 180, 30);
+
+        tipoAnimalTextField = field();
+        tipoAnimalTextField.setBounds(170, 470, 180, 30);
+
+        totalAnimalesTextField = field();
+        totalAnimalesTextField.setBounds(560, 20, 180, 30);
+
+        delNumTextField = field();
+        delNumTextField.setBounds(560, 70, 180, 30);
+
+        alNumTextField = field();
+        alNumTextField.setBounds(560, 120, 180, 30);
+
+        totalKGBrutoTextField = field();
+        totalKGBrutoTextField.setBounds(560, 170, 180, 30);
+
+        porOreoTextField = field();
+        porOreoTextField.setBounds(560, 220, 180, 30);
+
+        totalKGNetoTextField = field();
+        totalKGNetoTextField.setBounds(560, 270, 180, 30);
+
+        costoTotalTextField = field();
+        costoTotalTextField.setBounds(560, 320, 180, 30);
+
+        notasTextField = field();
+        notasTextField.setBounds(560, 370, 180, 30);
+    }
+
     public void addStuffs(Component... components) {  // Añadir components al frame.
         for (Component component : components) {
-            this.add(component);
+            container.add(component);
         }
+        this.add(container);
     }
 
     private void close() {
@@ -124,5 +224,12 @@ public class RegPart extends JFrame {
         label.setFont(new Font("Arial", Font.PLAIN, 14));
         label.setText(text);
         return label;
+    }
+
+    private JTextField field() {
+        JTextField field = new JTextField();
+        field.setFont(new Font("Arial", Font.PLAIN, 14));
+        field.setMargin(new Insets(1, 1, 1, 1));
+        return field;
     }
 }
