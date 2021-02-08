@@ -1,36 +1,38 @@
-package main;
+package userManagement;
 
 import buttonActions.userAction;
+import utils.LanguageUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.sql.SQLException;
 
-public class Usuarios {
+public class RegistroUsuarios {
     static {
         WIDTH = 300;
-        HEIGHT = 370;
+        HEIGHT = 450;
     }
+
+    public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.register", "Registrar"));
+    private JTextField userInput;
+    private JTextField passwordInput;
+
+    private JTextField rePasswordInput;
+
+    private JLabel welcomeLabel;
+    private JLabel userLabel;
+    private JLabel passwordLabel;
+
+    private JLabel rePasswordLabel;
+
+    private JButton submitButton;
+    private JButton loginButton;
 
     private static final int WIDTH;
     private static final int HEIGHT;
 
-    public JFrame frame = new JFrame("Iniciar sesión");
-
-    private JTextField userInput;
-    private JTextField passwordInput;
-
-    private JLabel infoLabel;
-
-    private JLabel userLabel;
-    private JLabel passwordLabel;
-
-    private JButton submitButton;
-    private JButton createAccButton;
-
-    public Usuarios() {
+    public RegistroUsuarios() {
         createJField();
         createJLabel();
         createJButton();
@@ -45,31 +47,33 @@ public class Usuarios {
     private void createJField() {  // Crear todos los Fields.
         userInput = (JTextField) createJThing(0, "");
         passwordInput = (JTextField) createJThing(0, "");
+        rePasswordInput = (JTextField) createJThing(0, "");
     }
 
     private void createJLabel() {  // Crear todos los Labels.
-        infoLabel = (JLabel) createJThing(1, "Bienvenido!");
-        userLabel = (JLabel) createJThing(1, "Nombre de usuario");
-        passwordLabel = (JLabel) createJThing(1, "Contraseña");
+        welcomeLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.welcome", "Bienvenido!"));
+        userLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.username", "Nombre de usuario"));
+        passwordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.password", "Contraseña"));
+        rePasswordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.repassword", "Repetir contraseña"));
     }
 
     private void createJButton() {  // Crear el botón de registro.
-        submitButton = (JButton) createJThing(2, "Iniciar");
+        submitButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.register", "Registrar"));
         submitButton.setBackground(Color.WHITE);
         submitButton.addActionListener(actionEvent -> {
             try {
-                userAction.login(userInput.getText(), passwordInput.getText(), this);
+                userAction.registerUser(userInput.getText(), passwordInput.getText(), rePasswordInput.getText(), this);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
         });
 
-        createAccButton = (JButton) createJThing(2, "Crear cuenta");
-        createAccButton.setBackground(Color.WHITE);
-        createAccButton.addActionListener(actionEvent -> {  // registrar usuario nuevo.
+        loginButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.alreadyAcc", "Ya tengo cuenta"));  // Iniciar sesión si ya tienes cuenta.
+        loginButton.setBackground(Color.WHITE);
+        loginButton.addActionListener(actionEvent -> {
             frame.dispose();
-            RegistroUsuarios regUsr = new RegistroUsuarios();
-            regUsr.frame.setVisible(true);
+            Usuarios usr = new Usuarios();
+            usr.frame.setVisible(true);
         });
     }
 
@@ -112,19 +116,6 @@ public class Usuarios {
         return thing;
     }
 
-    private void addStuffs() {  // Añadir components al frame.
-        frame.add(infoLabel);
-
-        frame.add(userInput);
-        frame.add(passwordInput);
-
-        frame.add(userLabel);
-        frame.add(passwordLabel);
-
-        frame.add(submitButton);
-        frame.add(createAccButton);
-    }
-
     private void setComponentBounds() {  // Las dimensiones de los components se crean según las dimensiones de la ventana principal.
         float width = frame.getWidth();
         float height = frame.getHeight();
@@ -133,10 +124,10 @@ public class Usuarios {
         int marginRight = (int) width - marginLeft;
         int horSize = marginRight - marginLeft;
 
-        int verSize = (int) height / 12;
+        int verSize = (int) height / 14;
         int verPos = verSize + 20;
 
-        infoLabel.setBounds((int) ((width / 2) - infoLabel.getWidth() / 2), 15, 95, verSize);
+        welcomeLabel.setBounds((int) ((width / 2) - welcomeLabel.getWidth() / 2), 15, 95, verSize);
 
         userLabel.setBounds(marginLeft, verPos, horSize, verSize);
         userInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
@@ -146,9 +137,29 @@ public class Usuarios {
         passwordLabel.setBounds(marginLeft, verPos, horSize, verSize);
         passwordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (7.1 * verSize), 150, verSize);
+        verPos = verPos + (2 * verSize) + 15;
 
-        createAccButton.setBounds((int) ((width / 2) - createAccButton.getWidth() / 2), (int) (9.2 * verSize), 200, verSize);
+        rePasswordLabel.setBounds(marginLeft, verPos, horSize, verSize);
+        rePasswordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
+
+        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (9.5 * verSize), 150, verSize);
+
+        loginButton.setBounds((int) ((width / 2) - loginButton.getWidth() / 2), (int) (11.3 * verSize), 200, verSize);
+    }
+
+    private void addStuffs() {  // Añadir components al frame.
+        frame.add(welcomeLabel);
+
+        frame.add(userInput);
+        frame.add(passwordInput);
+        frame.add(rePasswordInput);
+
+        frame.add(userLabel);
+        frame.add(passwordLabel);
+        frame.add(rePasswordLabel);
+
+        frame.add(submitButton);
+        frame.add(loginButton);
     }
 
     public void success() {  // acciones onSuccess.
@@ -157,5 +168,6 @@ public class Usuarios {
 
     public void error() {  // acciones onError.
         passwordInput.setText("");
+        rePasswordInput.setText("");
     }
 }

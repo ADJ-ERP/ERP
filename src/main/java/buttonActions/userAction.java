@@ -6,8 +6,10 @@ package buttonActions;
 
 import crypt.Pass;
 import database.Query;
-import main.RegistroUsuarios;
-import main.Usuarios;
+import application.Application;
+import userManagement.RegistroUsuarios;
+import userManagement.Usuarios;
+import utils.LanguageUtils;
 import utils.StringUtils;
 
 import javax.swing.*;
@@ -20,13 +22,13 @@ public class userAction {
         verification = verification.trim();
 
         if (!pass.equals(verification)) {  // Comprueba que la contraseña es igual que la de verificación.
-            JOptionPane.showMessageDialog(null, "La contraseña y su verificación no coinciden", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.passNoMatch", "La contraseña y su verificación no coinciden."), "ERROR", JOptionPane.ERROR_MESSAGE);
             regInstance.error();
             return;
         }
 
         if (Query.userExists(user)) {  // Check de si el usuario que se intenta registrar existe.
-            JOptionPane.showMessageDialog(null, "Ya existe un usuario con ese nombre de usuario.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.userExists", "Ya existe un usuario con ese nombre de usuario."), "ERROR", JOptionPane.ERROR_MESSAGE);
             regInstance.error();
             return;
         }
@@ -39,11 +41,11 @@ public class userAction {
                 Usuarios usuario = new Usuarios();
                 usuario.frame.setVisible(true);  // Mostramos la pantalla usuario
             } else {
-                JOptionPane.showMessageDialog(null, "Error al registrar usuario", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.registerError", "Error al registrar usuario."), "ERROR", JOptionPane.ERROR_MESSAGE);
                 regInstance.error();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Debes completar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.notFilled", "Debes completar todos los campos"), "ERROR", JOptionPane.ERROR_MESSAGE);
             regInstance.error();
         }
     }
@@ -54,27 +56,31 @@ public class userAction {
 
         if (!StringUtils.rEmpty(user, pass)) {
             if (!Query.userExists(user)) {  // Check de si el usuario que se intenta registrar existe.
-                JOptionPane.showMessageDialog(null, "El usuario introducido no existe.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.userNotExists", "El usuario introducido no existe."), "ERROR", JOptionPane.ERROR_MESSAGE);
                 usrInstance.error();
                 return;
             }
 
             String hash = Pass.hashPass(pass);
             if (hash == null) {
-                JOptionPane.showMessageDialog(null, "Error al iniciar sesión", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.loginError", "Error al iniciar sesión"), "ERROR", JOptionPane.ERROR_MESSAGE);
                 usrInstance.error();
                 return;
             }
 
             if (Pass.authenticate(pass, Query.getHash(user))) {
                 usrInstance.success();
-                JOptionPane.showMessageDialog(null, ":DDDD", "YAY", JOptionPane.INFORMATION_MESSAGE);
+
+                // Iniciamos la ventana principal del programa.
+                Application app = new Application(user);
+                app.setVisible(true);
+
             } else {
-                JOptionPane.showMessageDialog(null, "Contraseña incorrecta.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.passwordError", "Contraseña incorrecta."), "ERROR", JOptionPane.ERROR_MESSAGE);
                 usrInstance.error();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Debes completar todos los campos", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, LanguageUtils.getTranslation("error.notFilled", "Debes completar todos los campos"), "ERROR", JOptionPane.ERROR_MESSAGE);
             usrInstance.error();
         }
     }

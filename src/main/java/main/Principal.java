@@ -5,16 +5,32 @@
  */
 package main;
 
+import buttonActions.PrincipalActions;
+
+import javax.swing.*;
+import java.awt.*;
+
 /**
  *
  * @author angel
  */
 public class Principal extends javax.swing.JFrame {
 
+    static {
+        WIDTH = 426;
+        HEIGHT = 240;
+    }
+
+    private static final int WIDTH;
+    private static final int HEIGHT;
+
+    public String user;
+
     /**
      * Creates new form Principal
      */
-    public Principal() {
+    public Principal(String user) {
+        this.user = user;
         initComponents();
     }
 
@@ -29,8 +45,9 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMItemRegistrarUser = new javax.swing.JMenuItem();
+        // jMItemRegistrarUser = new javax.swing.JMenuItem();
         jMItemEditarUser = new javax.swing.JMenuItem();
+        jMItemCloseSession = new JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMItemRegistrarPart = new javax.swing.JMenuItem();
         jMItemVerPart = new javax.swing.JMenuItem();
@@ -43,11 +60,19 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu1.setText("Usuarios");
 
+/*
         jMItemRegistrarUser.setText("Registrar");
         jMenu1.add(jMItemRegistrarUser);
+*/
 
-        jMItemEditarUser.setText("Editar");
+        jMItemEditarUser.setText(String.format("Editar %s", user));
         jMenu1.add(jMItemEditarUser);
+
+        jMenu1.addSeparator();
+
+        jMItemCloseSession.setText("Cerrar Sesión");
+        jMItemCloseSession.addActionListener(actionEvent -> PrincipalActions.onCloseSession(this));
+        jMenu1.add(jMItemCloseSession);
 
         jMenuBar1.add(jMenu1);
 
@@ -79,12 +104,14 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 806, Short.MAX_VALUE)
+            .addGap(0, 768, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 523, Short.MAX_VALUE)
+            .addGap(0, 480, Short.MAX_VALUE)
         );
+
+        this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -92,7 +119,7 @@ public class Principal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -105,30 +132,21 @@ public class Principal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Principal().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new Principal("test").setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem jMItemEditarPart;
     private javax.swing.JMenuItem jMItemEditarUser;
+    private JMenuItem jMItemCloseSession;
     private javax.swing.JMenuItem jMItemRegistrarPart;
-    private javax.swing.JMenuItem jMItemRegistrarUser;
+    // private javax.swing.JMenuItem jMItemRegistrarUser;
     private javax.swing.JMenuItem jMItemVerPart;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
