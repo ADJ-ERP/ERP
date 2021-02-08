@@ -69,5 +69,6 @@ public class Partida extends Tab {
         registerButton.setFont(new Font("Arial", Font.BOLD, height / 30 > 16 ? 16 : (int) (height / 30)));
 
         partidaScrollPane.setBounds((int) (width / 38.15), (int) (height / 7), (int) (width - ((int) (width / 38.15) * 2)), (int) (height - ((height / 21.2 * 3) + (height / 14.15))));
+        partidaTable.packAll();
     }
 }

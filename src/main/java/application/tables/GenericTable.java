@@ -1,11 +1,11 @@
 package application.tables;
 
 import helpers.SelectionHelper;
+import org.jdesktop.swingx.JXTable;
 
-import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-public class GenericTable extends JTable {
+public class GenericTable extends JXTable {
     public final DefaultTableModel model;
 
     public GenericTable() {

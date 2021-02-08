@@ -16,7 +16,8 @@ repositories {
 dependencies {
     compile 'org.xerial:sqlite-jdbc:3.32.3.2'
     compile 'com.google.code.gson:gson:2.7'
-    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile 'commons-io:commons-io:2.6'
+    compile 'org.swinglabs:swingx:1.6.1'
 }
 
 jar {
