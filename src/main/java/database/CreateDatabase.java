@@ -59,9 +59,7 @@ public class CreateDatabase {
                 "`porcenOreo` INT NOT NULL," +
                 "`totalkgNetos` INT NOT NULL," +
                 "`importeTotalCosto` INT NOT NULL," +
-                "`notas` TEXT NULL," +
-                "`clavePagada` BOOLEAN NULL," +
-                "`claveSituacion` BOOLEAN NULL);";
+                "`notas` TEXT NULL);";
         stmt.executeUpdate(partidaTable);
         stmt.close();
         c.commit();

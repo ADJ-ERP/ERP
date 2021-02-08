@@ -1,4 +1,4 @@
-package buttonActions;
+package helpers;
 
 import main.Principal;
 import userManagement.Usuarios;
