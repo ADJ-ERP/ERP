@@ -19,7 +19,6 @@ public class Partida extends Tab {
 
     public Partida() {
         addStuffs(registerButton, partidaScrollPane, editButton);
-        setComponentBounds();
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {

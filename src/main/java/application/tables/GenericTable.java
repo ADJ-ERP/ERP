@@ -24,12 +24,17 @@ public class GenericTable extends JXTable {
         this.setSelectionModel(new SelectionHelper());  // Evitar que el usuario pueda no seleccionar nada o demasiado.
     }
 
-    private void onClosed() {
+    public void onClosed() {
         model.setColumnCount(0);
         model.setRowCount(0);
     }
 
     public void refresh() {
         onConnect();
+    }
+
+    @Override
+    public boolean getScrollableTracksViewportWidth() {
+        return getPreferredSize().width < getParent().getWidth();
     }
 }
