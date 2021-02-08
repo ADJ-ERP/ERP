@@ -1,6 +1,6 @@
 package userManagement;
 
-import buttonActions.userAction;
+import helpers.userAction;
 import utils.LanguageUtils;
 
 import javax.swing.*;

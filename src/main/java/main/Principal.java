@@ -5,7 +5,7 @@
  */
 package main;
 
-import buttonActions.PrincipalActions;
+import helpers.PrincipalActions;
 
 import javax.swing.*;
 import java.awt.*;

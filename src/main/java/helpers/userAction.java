@@ -2,7 +2,7 @@
 Esta clase es para manejar el botón de Registrar Usuarios
 */
 
-package buttonActions;
+package helpers;
 
 import crypt.Pass;
 import database.Query;

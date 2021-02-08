@@ -1,10 +1,14 @@
 package application;
 
 import application.tabs.Partida;
+import database.CreateDatabase;
 import main.ERP;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 public class Application extends JFrame {
     static {
@@ -25,7 +29,7 @@ public class Application extends JFrame {
     private void initComponents() {
         this.setBounds(100, 100, 768, 480);
         this.setTitle(String.format("%s - %s", ERP.NAME, this.user));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
 
         JTabbedPane tabs = new JTabbedPane();
@@ -51,5 +55,22 @@ public class Application extends JFrame {
         tabs.addTab("Facturas", p5);
 
         this.add(tabs);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent windowEvent) {
+                super.windowClosing(windowEvent);
+                try {
+                    if (CreateDatabase.c != null && !CreateDatabase.c.isClosed()) {
+                        CreateDatabase.c.close();
+                    }
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+
+                dispose();
+                Runtime.getRuntime().halt(0);
+            }
+        });
     }
 }

@@ -4,10 +4,10 @@ Esta clase es para manejar las Queries realizadas en la Base de Datos
 
 package database;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import utils.CustomTableFormat;
+
+import java.sql.*;
+import java.util.ArrayList;
 
 public class Query {
     public static void register(String userName, String pass) throws SQLException {  // Registra usuarios.
@@ -103,5 +103,36 @@ public class Query {
             }
         }
         return true;
+    }
+
+    public static CustomTableFormat getPartidas() throws SQLException {
+        if (CreateDatabase.c != null) {
+            Statement stmt = CreateDatabase.c.createStatement();
+            String getPColumns = "PRAGMA table_info('partidas');";
+            ResultSet rs = stmt.executeQuery(getPColumns);
+
+            ArrayList<String> columns = new ArrayList<>();
+            while (rs.next()) {
+                columns.add(rs.getString("name"));
+            }
+
+            String getRows = "SELECT * FROM partidas;";
+            rs = stmt.executeQuery(getRows);
+            String[] row = new String[columns.size()];
+            ArrayList<String[]> rows = new ArrayList<>();
+            while (rs.next()) {
+                for (int i = 0; i < columns.size(); i++) {
+                    String placeHolder = rs.getString(columns.get(i));
+                    // Si está incompleto, añade un NULL.
+                    row[i] = placeHolder == null ? "NULL" : placeHolder;
+                }
+                rows.add(row);
+                row = new String[columns.size()];
+            }
+            rs.close();
+            stmt.close();
+            return new CustomTableFormat(columns, rows);
+        }
+        return null;
     }
 }
