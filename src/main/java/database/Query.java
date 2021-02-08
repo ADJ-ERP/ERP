@@ -65,36 +65,43 @@ public class Query {
         return null;
     }
 
-    public static void registerPartida(int numPartida, String fechaAlta, String tipo, String centroVenta, int numMatadero,
+    public static boolean registerPartida(int numPartida, String fechaAlta, String tipo, String centroVenta, int numMatadero,
             String proveedor, int numExplotacion, String paisNacido, String paisSacrificado, String tipoAnimal, int totalAnimales, int delNum, 
-            int alNum, int totalKgBrutos, int porcenOreo, int totalKgNetos, int importeTotalCosto, String notas) throws SQLException {  // Registra usuarios.
+            int alNum, int totalKgBrutos, int porcenOreo, int totalKgNetos, int importeTotalCosto, String notas) {  // Registra usuarios.
         String query = "INSERT OR IGNORE INTO partidas(numPartida, fechaAlta, tipo, centroVenta, numMatadero, "
-                + "tipo, proveedor, numExplotacion, paisNacido, paisSacrificado, tipoAnimal, totalAnimales, "
-                + "delNum, alNum, totalKgBrutos, porcenOreo, totalkgNetos, importeTotalCosto, notas, clavePagada, claveSituacion) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                + "proveedor, numExplotacion, paisNacido, paisSacrificado, tipoAnimal, totalAnimales, "
+                + "delNum, alNum, totalKgBrutos, porcenOreo, totalkgNetos, importeTotalCosto, notas) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         if (CreateDatabase.c != null) {  // Comprueba que la Base de Datos este creada.
-            PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);  // Evitar que pongan inputs no deseados para acceder a información privada o tirarla.
-            stmt.setInt(1, numPartida);
-            stmt.setString(2, fechaAlta);
-            stmt.setString(3, tipo);
-            stmt.setString(4, centroVenta);
-            stmt.setInt(5, numMatadero);
-            stmt.setString(6, proveedor);
-            stmt.setInt(7, numExplotacion);
-            stmt.setString(8, paisNacido);
-            stmt.setString(9, paisSacrificado);
-            stmt.setString(10, tipoAnimal);
-            stmt.setInt(11, totalAnimales);
-            stmt.setInt(12, alNum);
-            stmt.setInt(13, delNum);
-            stmt.setInt(14, totalKgBrutos);
-            stmt.setInt(15, porcenOreo);
-            stmt.setInt(16, totalKgNetos);
-            stmt.setInt(17, importeTotalCosto);
-            stmt.setString(18, notas);
-            stmt.executeUpdate();  // Añade el usuario.
-            stmt.close();
-            CreateDatabase.c.commit();
+            PreparedStatement stmt = null;  // Evitar que pongan inputs no deseados para acceder a información privada o tirarla.
+            try {
+                stmt = CreateDatabase.c.prepareStatement(query);
+                stmt.setInt(1, numPartida);
+                stmt.setString(2, fechaAlta);
+                stmt.setString(3, tipo);
+                stmt.setString(4, centroVenta);
+                stmt.setInt(5, numMatadero);
+                stmt.setString(6, proveedor);
+                stmt.setInt(7, numExplotacion);
+                stmt.setString(8, paisNacido);
+                stmt.setString(9, paisSacrificado);
+                stmt.setString(10, tipoAnimal);
+                stmt.setInt(11, totalAnimales);
+                stmt.setInt(12, delNum);
+                stmt.setInt(13, alNum);
+                stmt.setInt(14, totalKgBrutos);
+                stmt.setInt(15, porcenOreo);
+                stmt.setInt(16, totalKgNetos);
+                stmt.setInt(17, importeTotalCosto);
+                stmt.setString(18, notas);
+                stmt.executeUpdate();  // Añade el usuario.
+                stmt.close();
+                CreateDatabase.c.commit();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
         }
+        return true;
     }
 }
