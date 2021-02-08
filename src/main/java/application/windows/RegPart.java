@@ -1,5 +1,6 @@
 package application.windows;
 
+import application.tables.PartidaTable;
 import database.Query;
 import utils.StringUtils;
 
@@ -11,6 +12,8 @@ import java.awt.event.WindowEvent;
 public class RegPart extends JFrame {
 
     private final JPanel container;
+
+    private final PartidaTable partidaTable;
 
     private JLabel numeroPartidaLabel;
     private JLabel fechaAltaLabel;
@@ -53,7 +56,9 @@ public class RegPart extends JFrame {
     private JButton submitButton;
 
 
-    public RegPart() {
+    public RegPart(PartidaTable partidaTable) {
+        this.partidaTable = partidaTable;
+
         container = new JPanel();
         container.setLayout(null);
 
@@ -232,6 +237,7 @@ public class RegPart extends JFrame {
     }
 
     private void close() {
+        partidaTable.refresh();
         dispose();
     }
 

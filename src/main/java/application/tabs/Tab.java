@@ -8,12 +8,20 @@ public class Tab extends JPanel {
         setLayout(null);
         createJButton();
         createJField();
+        createJTable();
+        createScrollPane();
     }
 
     public void createJField() {
     }
 
     public void createJButton() {
+    }
+
+    public void createJTable() {
+    }
+
+    public void createScrollPane() {
     }
 
     public Object createJThing(int type, String text) {
