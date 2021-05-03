@@ -23,9 +23,11 @@ public class PartidaTable extends GenericTable {
             for (String[] row : tbl.rows) {
                 super.model.addRow(row);
             }
+
             if (super.model.getRowCount() > 0) {
                 this.setRowSelectionInterval(0, 0);
             } else {
+                onClosed();
                 super.model.addColumn("No hay partidas");
             }
         } catch (SQLException throwables) {
