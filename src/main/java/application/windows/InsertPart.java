@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class RegPart extends JFrame {
+public class InsertPart extends JFrame {
 
     private final JPanel container;
 
@@ -56,7 +56,7 @@ public class RegPart extends JFrame {
     private JButton submitButton;
 
 
-    public RegPart(PartidaTable partidaTable) {
+    public InsertPart(PartidaTable partidaTable) {
         this.partidaTable = partidaTable;
 
         container = new JPanel();
