@@ -9,7 +9,7 @@ import java.security.spec.KeySpec;
 import java.util.Base64;
 
 public class Pass {
-    public static final String ALGORITHM = "PBKDF2WithHmacSHA512";  // Algoritmo usado para hashear.
+    public static final String ALGORITHM = "PBKDF2WithHmacSHA1";  // Algoritmo usado para hashear.
 
     public static String hashPass(String pass) {
         SecureRandom random = new SecureRandom();
