@@ -32,7 +32,9 @@ public class CreateDatabase {
 
         String userTable = "CREATE TABLE IF NOT EXISTS `usuarios`(" +
                 "`usuario` TEXT PRIMARY KEY NOT NULL," +
-                "`pass` TEXT NOT NULL);";
+                "`pass` TEXT NOT NULL,"+
+                "`rol` TEXT NOT NULL);";
+
         stmt.executeUpdate(userTable);
         stmt.close();
         c.commit();

@@ -16,7 +16,7 @@ import javax.swing.*;
 import java.sql.SQLException;
 
 public class userAction {
-    public static void registerUser(String user, String pass, String verification, RegistroUsuarios regInstance) throws SQLException {
+    public static void registerUser(String user, String pass, String verification,String rol, RegistroUsuarios regInstance) throws SQLException {
         user = user.trim();
         pass = pass.trim();
         verification = verification.trim();
@@ -33,10 +33,10 @@ public class userAction {
             return;
         }
 
-        if (StringUtils.areNotEmpty(user, pass)) {
+        if (StringUtils.areNotEmpty(user, pass,rol)) {
             String hash = Pass.hashPass(pass);  // Hasheamos la contraseña.
             if (hash != null) {
-                Query.register(user, hash);  // Registramos el usuario.
+                Query.register(user, hash,rol);  // Registramos el usuario.
                 regInstance.success();
                 Usuarios usuario = new Usuarios();
                 usuario.frame.setVisible(true);  // Mostramos la pantalla usuario

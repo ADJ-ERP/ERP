@@ -10,12 +10,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Query {
-    public static void register(String userName, String pass) throws SQLException {  // Registra usuarios.
-        String query = "INSERT OR IGNORE INTO usuarios(usuario,pass) VALUES (?, ?);";
+    public static void register(String userName, String pass ,String rol) throws SQLException {  // Registra usuarios.
+        String query = "INSERT OR IGNORE INTO usuarios(usuario,pass,rol) VALUES (?, ?,?);";
         if (CreateDatabase.c != null) {  // Comprueba que la Base de Datos este creada.
             PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);  // Evitar que pongan inputs no deseados para acceder a información privada o tirarla.
             stmt.setString(1, userName);
             stmt.setString(2, pass);
+            stmt.setString(3, rol);
 
             stmt.executeUpdate();  // Añade el usuario.
             stmt.close();

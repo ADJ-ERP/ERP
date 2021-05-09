@@ -67,7 +67,6 @@ public class Application extends JFrame {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-
                 dispose();
                 Runtime.getRuntime().halt(0);
             }

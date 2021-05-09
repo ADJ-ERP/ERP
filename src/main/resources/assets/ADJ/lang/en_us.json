@@ -7,6 +7,7 @@
   "users.welcome": "Welcome!",
   "users.username": "Username",
   "users.password": "Password",
+  "users.rol": "User role",
   "users.repassword": "Repeat password",
   "users.createAccount": "Create account",
   "users.register": "Register",

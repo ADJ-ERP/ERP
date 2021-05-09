@@ -11,17 +11,19 @@ import java.sql.SQLException;
 public class RegistroUsuarios {
     static {
         WIDTH = 300;
-        HEIGHT = 450;
+        HEIGHT = 500;
     }
 
     public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.register", "Registrar"));
     private JTextField userInput;
     private JTextField passwordInput;
-
+    private JComboBox rolInput;
     private JTextField rePasswordInput;
 
     private JLabel welcomeLabel;
     private JLabel userLabel;
+    private JLabel rolLabel;
+    private JLabel rolLabelCombo;
     private JLabel passwordLabel;
 
     private JLabel rePasswordLabel;
@@ -48,12 +50,17 @@ public class RegistroUsuarios {
         userInput = (JTextField) createJThing(0, "");
         passwordInput = (JTextField) createJThing(0, "");
         rePasswordInput = (JTextField) createJThing(0, "");
+        rolInput= new JComboBox();
+        rolInput.addItem("");
+        rolInput.addItem("admin");
+        rolInput.addItem("user");
     }
 
     private void createJLabel() {  // Crear todos los Labels.
         welcomeLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.welcome", "Bienvenido!"));
         userLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.username", "Nombre de usuario"));
         passwordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.password", "Contraseña"));
+        rolLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.rol", "Rol del usuario"));
         rePasswordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.repassword", "Repetir contraseña"));
     }
 
@@ -62,7 +69,7 @@ public class RegistroUsuarios {
         submitButton.setBackground(Color.WHITE);
         submitButton.addActionListener(actionEvent -> {
             try {
-                userAction.registerUser(userInput.getText(), passwordInput.getText(), rePasswordInput.getText(), this);
+                userAction.registerUser(userInput.getText(), passwordInput.getText(), rePasswordInput.getText(),String.valueOf(rolInput.getSelectedItem()) ,this);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -120,7 +127,7 @@ public class RegistroUsuarios {
         float width = frame.getWidth();
         float height = frame.getHeight();
 
-        int marginLeft = (int) width / 7;
+        int marginLeft = (int) width / 6;
         int marginRight = (int) width - marginLeft;
         int horSize = marginRight - marginLeft;
 
@@ -142,9 +149,14 @@ public class RegistroUsuarios {
         rePasswordLabel.setBounds(marginLeft, verPos, horSize, verSize);
         rePasswordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (9.5 * verSize), 150, verSize);
+        verPos = verPos + (2 * verSize) + 15;
 
-        loginButton.setBounds((int) ((width / 2) - loginButton.getWidth() / 2), (int) (11.3 * verSize), 200, verSize);
+        rolLabel.setBounds(marginLeft, verPos, horSize, verSize);
+        rolInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
+
+
+        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (11.5 * verSize), 150, verSize);
+        loginButton.setBounds((int) ((width / 2) - loginButton.getWidth() / 2), (int) (13.3 * verSize), 200, verSize);
     }
 
     private void addStuffs() {  // Añadir components al frame.
@@ -153,10 +165,13 @@ public class RegistroUsuarios {
         frame.add(userInput);
         frame.add(passwordInput);
         frame.add(rePasswordInput);
+        frame.add(rolInput);
 
         frame.add(userLabel);
         frame.add(passwordLabel);
         frame.add(rePasswordLabel);
+        frame.add(rolLabel);
+
 
         frame.add(submitButton);
         frame.add(loginButton);
@@ -169,5 +184,6 @@ public class RegistroUsuarios {
     public void error() {  // acciones onError.
         passwordInput.setText("");
         rePasswordInput.setText("");
+        rolInput.setSelectedIndex(0);
     }
 }
