@@ -50,7 +50,16 @@ public class Query {
         }
         return false;
     }
+    public static Boolean isAdmin (String user) throws SQLException {
+        String query = "SELECT rol FROM usuarios WHERE usuario LIKE ?;";
+        PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+        stmt.setString(1, user);
+        ResultSet rs = stmt.executeQuery();
+        String rol = rs.getString("rol");
+        System.out.println(rs.getString("rol"));
+        return rol.equals("admin");
 
+    }
     public static String getHash(String user) throws SQLException {  // Sacar el hash de la base de datos.
         String query = "SELECT pass FROM usuarios WHERE usuario LIKE ?;";
         if (CreateDatabase.c != null) {
@@ -118,6 +127,37 @@ public class Query {
             }
 
             String getRows = "SELECT * FROM partidas;";
+            rs = stmt.executeQuery(getRows);
+            String[] row = new String[columns.size()];
+            ArrayList<String[]> rows = new ArrayList<>();
+            while (rs.next()) {
+                for (int i = 0; i < columns.size(); i++) {
+                    String placeHolder = rs.getString(columns.get(i));
+                    // Si está incompleto, añade un NULL.
+                    row[i] = placeHolder == null ? "NULL" : placeHolder;
+                }
+                rows.add(row);
+                row = new String[columns.size()];
+            }
+            rs.close();
+            stmt.close();
+            return new CustomTableFormat(columns, rows);
+        }
+        return null;
+    }
+
+    public static CustomTableFormat getUsers() throws SQLException {
+        if (CreateDatabase.c != null) {
+            Statement stmt = CreateDatabase.c.createStatement();
+            String getPColumns = "PRAGMA table_info('usuarios');";
+            ResultSet rs = stmt.executeQuery(getPColumns);
+
+            ArrayList<String> columns = new ArrayList<>();
+            while (rs.next()) {
+                columns.add(rs.getString("name"));
+            }
+
+            String getRows = "SELECT * FROM usuarios;";
             rs = stmt.executeQuery(getRows);
             String[] row = new String[columns.size()];
             ArrayList<String[]> rows = new ArrayList<>();

@@ -1,33 +1,26 @@
 package userManagement;
 
-import application.tables.PartidaTable;
-import application.tables.UsersTable;
 import helpers.userAction;
 import utils.LanguageUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.sql.SQLException;
 
-public class RegistroUsuarios {
+public class RegisterSuperUser {
     static {
-        WIDTH = 300;
+        WIDTH = 350;
         HEIGHT = 500;
     }
-
     public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.register", "Registrar"));
     private JTextField userInput;
     private JTextField passwordInput;
-    private JComboBox rolInput;
     private JTextField rePasswordInput;
-
-    private final UsersTable usersTable;
 
     private JLabel welcomeLabel;
     private JLabel userLabel;
-    private JLabel rolLabel;
-    private JLabel rolLabelCombo;
     private JLabel passwordLabel;
 
     private JLabel rePasswordLabel;
@@ -38,8 +31,7 @@ public class RegistroUsuarios {
     private static final int WIDTH;
     private static final int HEIGHT;
 
-    public RegistroUsuarios(UsersTable usersTable) {
-        this.usersTable = usersTable;
+    public RegisterSuperUser() {
         createJField();
         createJLabel();
         createJButton();
@@ -55,17 +47,12 @@ public class RegistroUsuarios {
         userInput = (JTextField) createJThing(0, "");
         passwordInput = (JTextField) createJThing(0, "");
         rePasswordInput = (JTextField) createJThing(0, "");
-        rolInput= new JComboBox();
-        rolInput.addItem("");
-        rolInput.addItem("admin");
-        rolInput.addItem("user");
     }
 
     private void createJLabel() {  // Crear todos los Labels.
-        welcomeLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.welcome", "Bienvenido!"));
-        userLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.username", "Nombre de usuario"));
-        passwordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.password", "Contraseña"));
-        rolLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.rol", "Rol del usuario"));
+        welcomeLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.Superwelcome", "Bienvenido crea el Superusuario!"));
+        userLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.Superusername", "Nombre de Superusuario"));
+        passwordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.Superpassword", "Contraseña de Superusuario"));
         rePasswordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.repassword", "Repetir contraseña"));
     }
 
@@ -74,7 +61,7 @@ public class RegistroUsuarios {
         submitButton.setBackground(Color.WHITE);
         submitButton.addActionListener(actionEvent -> {
             try {
-                userAction.registerUser(userInput.getText(), passwordInput.getText(), rePasswordInput.getText(),String.valueOf(rolInput.getSelectedItem()) ,this);
+                userAction.registerSuperUser(userInput.getText(), passwordInput.getText(), rePasswordInput.getText(),"admin",this);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -156,9 +143,6 @@ public class RegistroUsuarios {
 
         verPos = verPos + (2 * verSize) + 15;
 
-        rolLabel.setBounds(marginLeft, verPos, horSize, verSize);
-        rolInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
-
 
         submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (11.5 * verSize), 150, verSize);
         loginButton.setBounds((int) ((width / 2) - loginButton.getWidth() / 2), (int) (13.3 * verSize), 200, verSize);
@@ -170,26 +154,25 @@ public class RegistroUsuarios {
         frame.add(userInput);
         frame.add(passwordInput);
         frame.add(rePasswordInput);
-        frame.add(rolInput);
+
 
         frame.add(userLabel);
         frame.add(passwordLabel);
         frame.add(rePasswordLabel);
-        frame.add(rolLabel);
+
 
 
         frame.add(submitButton);
         frame.add(loginButton);
     }
 
-    public void success() {
-        usersTable.refresh();
+    public void success() {  // acciones onSuccess.
         frame.dispose();
     }
 
     public void error() {  // acciones onError.
         passwordInput.setText("");
         rePasswordInput.setText("");
-        rolInput.setSelectedIndex(0);
+
     }
 }
