@@ -1,12 +1,18 @@
 package application.tabs;
 
 import application.tables.PartidaTable;
-import application.windows.InsertPart;
+import application.windows.partidas.EditPart;
+import application.windows.partidas.InsertPart;
+import database.Query;
+import database.tables.PartidaDB;
+import utils.PaneUtils;
+import utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.SQLException;
 
 public class Partida extends Tab {
 
@@ -41,10 +47,59 @@ public class Partida extends Tab {
         });
 
         editButton = (JButton) createJThing(2, "Editar");
-        editButton.addActionListener(actionEvent -> System.out.println("a"));
+        editButton.addActionListener(actionEvent -> {
+            String sNPartida;
+            try {
+                sNPartida = (String) partidaTable.getValueAt(
+                        partidaTable.getSelectedRow(),
+                        partidaTable.getColumn("numPartida").getModelIndex()
+                );
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (sNPartida == null || StringUtils.isNotInt(sNPartida)) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int nPartida = Integer.parseInt(sNPartida);
+
+            try {
+                PartidaDB partidaDB = Query.getPartida(nPartida);
+                EditPart editPart = new EditPart(partidaTable, partidaDB);
+                editPart.setVisible(true);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
 
         deleteButton = (JButton) createJThing(2, "Eliminar");
-        deleteButton.addActionListener(actionEvent -> System.out.println("b"));
+        deleteButton.addActionListener(actionEvent -> {
+            String sNPartida;
+            try {
+                sNPartida = (String) partidaTable.getValueAt(
+                        partidaTable.getSelectedRow(),
+                        partidaTable.getColumn("numPartida").getModelIndex()
+                );
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (sNPartida == null || StringUtils.isNotInt(sNPartida)) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int nPartida = Integer.parseInt(sNPartida);
+            if (PaneUtils.confirmation(String.format("Vas a eliminar la partida número %d\nSeguro que quieres continuar?", nPartida))) {
+                if (Query.deletePartida(nPartida)) {
+                    partidaTable.refresh();
+                }
+            }
+        });
     }
 
     @Override

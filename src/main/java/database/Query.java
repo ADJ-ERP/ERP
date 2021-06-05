@@ -4,6 +4,7 @@ Esta clase es para manejar las Queries realizadas en la Base de Datos
 
 package database;
 
+import database.tables.PartidaDB;
 import utils.CustomTableFormat;
 
 import java.sql.*;
@@ -65,44 +66,83 @@ public class Query {
         return null;
     }
 
-    public static boolean registerPartida(int numPartida, String fechaAlta, String tipo, String centroVenta, int numMatadero,
-            String proveedor, int numExplotacion, String paisNacido, String paisSacrificado, String tipoAnimal, int totalAnimales, int delNum, 
-            int alNum, int totalKgBrutos, int porcenOreo, int totalKgNetos, int importeTotalCosto, String notas) {  // Registra usuarios.
+    public static boolean registerPartida(PartidaDB partidaDB) {  // Registra usuarios.
         String query = "INSERT OR IGNORE INTO partidas(numPartida, fechaAlta, tipo, centroVenta, numMatadero, "
                 + "proveedor, numExplotacion, paisNacido, paisSacrificado, tipoAnimal, totalAnimales, "
                 + "delNum, alNum, totalKgBrutos, porcenOreo, totalkgNetos, importeTotalCosto, notas) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
         if (CreateDatabase.c != null) {  // Comprueba que la Base de Datos este creada.
-            PreparedStatement stmt = null;  // Evitar que pongan inputs no deseados para acceder a información privada o tirarla.
+            PreparedStatement stmt;  // Evitar que pongan inputs no deseados para acceder a información privada o tirarla.
             try {
                 stmt = CreateDatabase.c.prepareStatement(query);
-                stmt.setInt(1, numPartida);
-                stmt.setString(2, fechaAlta);
-                stmt.setString(3, tipo);
-                stmt.setString(4, centroVenta);
-                stmt.setInt(5, numMatadero);
-                stmt.setString(6, proveedor);
-                stmt.setInt(7, numExplotacion);
-                stmt.setString(8, paisNacido);
-                stmt.setString(9, paisSacrificado);
-                stmt.setString(10, tipoAnimal);
-                stmt.setInt(11, totalAnimales);
-                stmt.setInt(12, delNum);
-                stmt.setInt(13, alNum);
-                stmt.setInt(14, totalKgBrutos);
-                stmt.setInt(15, porcenOreo);
-                stmt.setInt(16, totalKgNetos);
-                stmt.setInt(17, importeTotalCosto);
-                stmt.setString(18, notas);
+                stmt.setInt(1, partidaDB.getNumPartida());
+                stmt.setString(2, partidaDB.getFechaAlta());
+                stmt.setString(3, partidaDB.getTipo());
+                stmt.setString(4, partidaDB.getCentroVenta());
+                stmt.setInt(5, partidaDB.getNumMatadero());
+                stmt.setString(6, partidaDB.getProveedor());
+                stmt.setInt(7, partidaDB.getNumExplotacion());
+                stmt.setString(8, partidaDB.getPaisNacido());
+                stmt.setString(9, partidaDB.getPaisSacrificado());
+                stmt.setString(10, partidaDB.getTipoAnimal());
+                stmt.setInt(11, partidaDB.getTotalAnimales());
+                stmt.setInt(12, partidaDB.getDelNum());
+                stmt.setInt(13, partidaDB.getAlNum());
+                stmt.setInt(14, partidaDB.getTotalKgBrutos());
+                stmt.setInt(15, partidaDB.getPorcenOreo());
+                stmt.setInt(16, partidaDB.getTotalKgNetos());
+                stmt.setInt(17, partidaDB.getImporteTotalCosto());
+                stmt.setString(18, partidaDB.getNotas());
                 stmt.executeUpdate();  // Añade el usuario.
                 stmt.close();
                 CreateDatabase.c.commit();
+                return true;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 return false;
             }
         }
-        return true;
+        return false;
+    }
+
+    public static boolean editPartida(PartidaDB partidaDB) {
+        String query = "UPDATE partidas SET fechaAlta = ?, tipo = ?, centroVenta = ?, numMatadero = ?, proveedor = ?, " +
+                "numExplotacion = ?, paisNacido = ?, paisSacrificado = ?, tipoAnimal = ?, totalAnimales = ?, " +
+                "delNum = ?, alNum = ?, totalKgBrutos = ?, porcenOreo = ?, totalkgNetos = ?, importeTotalCosto = ?, " +
+                "notas = ? WHERE numPartida = ?";
+        if (CreateDatabase.c != null) {
+            try {
+                PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+                stmt.setString(1, partidaDB.getFechaAlta());
+                stmt.setString(2, partidaDB.getTipo());
+                stmt.setString(3, partidaDB.getCentroVenta());
+                stmt.setInt(4, partidaDB.getNumMatadero());
+                stmt.setString(5, partidaDB.getProveedor());
+                stmt.setInt(6, partidaDB.getNumExplotacion());
+                stmt.setString(7, partidaDB.getPaisNacido());
+                stmt.setString(8, partidaDB.getPaisSacrificado());
+                stmt.setString(9, partidaDB.getTipoAnimal());
+                stmt.setInt(10, partidaDB.getTotalAnimales());
+                stmt.setInt(11, partidaDB.getDelNum());
+                stmt.setInt(12, partidaDB.getAlNum());
+                stmt.setInt(13, partidaDB.getTotalKgBrutos());
+                stmt.setInt(14, partidaDB.getPorcenOreo());
+                stmt.setInt(15, partidaDB.getTotalKgNetos());
+                stmt.setInt(16, partidaDB.getImporteTotalCosto());
+                stmt.setString(17, partidaDB.getNotas());
+
+                stmt.setInt(18, partidaDB.getNumPartida());
+
+                stmt.executeUpdate();
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 
     public static CustomTableFormat getPartidas() throws SQLException {
@@ -134,5 +174,54 @@ public class Query {
             return new CustomTableFormat(columns, rows);
         }
         return null;
+    }
+
+    public static PartidaDB getPartida(int nPartida) throws SQLException {
+        if (CreateDatabase.c != null) {
+            String getPart = String.format("SELECT * FROM partidas WHERE numPartida = %d", nPartida);
+            Statement stmt = CreateDatabase.c.createStatement();
+            ResultSet rs = stmt.executeQuery(getPart);
+            PartidaDB partidaDB = new PartidaDB(
+                    rs.getInt("numPartida"),
+                    rs.getString("fechaAlta"),
+                    rs.getString("tipo"),
+                    rs.getString("centroVenta"),
+                    rs.getInt("numMatadero"),
+                    rs.getString("proveedor"),
+                    rs.getInt("numExplotacion"),
+                    rs.getString("paisNacido"),
+                    rs.getString("paisSacrificado"),
+                    rs.getString("tipoAnimal"),
+                    rs.getInt("totalAnimales"),
+                    rs.getInt("delNum"),
+                    rs.getInt("alNum"),
+                    rs.getInt("totalKgBrutos"),
+                    rs.getInt("porcenOreo"),
+                    rs.getInt("totalkgNetos"),
+                    rs.getInt("importeTotalCosto"),
+                    rs.getString("notas")
+            );
+            rs.close();
+            stmt.close();
+            return partidaDB;
+        }
+        return null;
+    }
+
+    public static boolean deletePartida(int nPartida) {
+        String query = String.format("DELETE FROM partidas WHERE numPartida = %d;", nPartida);
+        if (CreateDatabase.c != null) {
+            try {
+                Statement stmt = CreateDatabase.c.createStatement();
+                stmt.executeUpdate(query);
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 }

@@ -14,9 +14,9 @@ public class CreateDatabase {
     public static Connection c = null;
 
     public static void create(String name) throws SQLException {
-        boolean createDir = new File("database").mkdir();  // Creamos la carpeta donde estará la Base de Datos.
+        boolean createDir = new File("db").mkdir();  // Creamos la carpeta donde estará la Base de Datos.
         if (createDir) System.out.println("Carpeta de la base de datos creada");
-        c = DriverManager.getConnection(String.format("jdbc:sqlite:database/%s.db", name));  // Creamos la Base de Datos.
+        c = DriverManager.getConnection(String.format("jdbc:sqlite:db/%s.db", name));  // Creamos la Base de Datos.
         assert c != null;
         c.setAutoCommit(false);
         createTables();

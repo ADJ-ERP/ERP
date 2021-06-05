@@ -1,7 +1,8 @@
-package application.windows;
+package application.windows.partidas;
 
 import application.tables.PartidaTable;
 import database.Query;
+import database.tables.PartidaDB;
 import utils.StringUtils;
 
 import javax.swing.*;
@@ -86,16 +87,27 @@ public class InsertPart extends JFrame {
         submitButton.setBounds(500, 450, 150, 30);
         submitButton.addActionListener(actionEvent -> {
             if (inputCheck()) {
-                boolean executed = Query.registerPartida(Integer.parseInt(numeroPartidaTextField.getText()), fechaAltaTextField.getText(),
-                        tipoTextField.getText(), centroVentaTextField.getText(),
-                        Integer.parseInt(numeroMataderoTextField.getText()), proveedorTextField.getText(),
-                        Integer.parseInt(numeroExplTextField.getText()), paisNacimientoTextField.getText(),
-                        paisSacrificioTextField.getText(), tipoAnimalTextField.getText(),
+                PartidaDB partidaDB = new PartidaDB(
+                        Integer.parseInt(numeroPartidaTextField.getText()),
+                        fechaAltaTextField.getText(),
+                        tipoTextField.getText(),
+                        centroVentaTextField.getText(),
+                        Integer.parseInt(numeroMataderoTextField.getText()),
+                        proveedorTextField.getText(),
+                        Integer.parseInt(numeroExplTextField.getText()),
+                        paisNacimientoTextField.getText(),
+                        paisSacrificioTextField.getText(),
+                        tipoAnimalTextField.getText(),
                         Integer.parseInt(totalAnimalesTextField.getText()),
-                        Integer.parseInt(delNumTextField.getText()), Integer.parseInt(alNumTextField.getText()),
-                        Integer.parseInt(totalKGBrutoTextField.getText()), Integer.parseInt(porOreoTextField.getText()),
-                        Integer.parseInt(totalKGNetoTextField.getText()), Integer.parseInt(costoTotalTextField.getText()),
-                        notasTextField.getText());
+                        Integer.parseInt(delNumTextField.getText()),
+                        Integer.parseInt(alNumTextField.getText()),
+                        Integer.parseInt(totalKGBrutoTextField.getText()),
+                        Integer.parseInt(porOreoTextField.getText()),
+                        Integer.parseInt(totalKGNetoTextField.getText()),
+                        Integer.parseInt(costoTotalTextField.getText()),
+                        notasTextField.getText()
+                );
+                boolean executed = Query.registerPartida(partidaDB);
                 if (!executed) JOptionPane.showMessageDialog(null, "Error al insertar!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 close();
             }
