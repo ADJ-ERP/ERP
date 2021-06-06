@@ -59,7 +59,6 @@ public class Query {
         stmt.setString(1, user);
         ResultSet rs = stmt.executeQuery();
         String rol = rs.getString("rol");
-        System.out.println(rs.getString("rol"));
         return rol.equals("admin");
 
     }
