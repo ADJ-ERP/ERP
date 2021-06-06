@@ -29,7 +29,6 @@ public class Usuarios {
     private JLabel passwordLabel;
 
     private JButton submitButton;
-    private JButton createAccButton;
 
     public Usuarios() {
         createJField();
@@ -63,14 +62,6 @@ public class Usuarios {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        });
-
-        createAccButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.createAccount", "Crear cuenta"));
-        createAccButton.setBackground(Color.WHITE);
-        createAccButton.addActionListener(actionEvent -> {  // registrar usuario nuevo.
-            frame.dispose();
-            RegistroUsuarios regUsr = new RegistroUsuarios();
-            regUsr.frame.setVisible(true);
         });
     }
 
@@ -123,7 +114,6 @@ public class Usuarios {
         frame.add(passwordLabel);
 
         frame.add(submitButton);
-        frame.add(createAccButton);
     }
 
     private void setComponentBounds() {  // Las dimensiones de los components se crean según las dimensiones de la ventana principal.
@@ -149,7 +139,6 @@ public class Usuarios {
 
         submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (7.1 * verSize), 150, verSize);
 
-        createAccButton.setBounds((int) ((width / 2) - createAccButton.getWidth() / 2), (int) (9.2 * verSize), 200, verSize);
     }
 
     public void success() {  // acciones onSuccess.

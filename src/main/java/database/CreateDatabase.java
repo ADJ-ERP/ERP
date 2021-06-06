@@ -4,6 +4,8 @@ Esta clase es para manejar la creación de la Base de Datos.
 
 package database;
 
+import crypt.Pass;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,12 +35,22 @@ public class CreateDatabase {
 
         String userTable = "CREATE TABLE IF NOT EXISTS `usuarios`(" +
                 "`usuario` TEXT PRIMARY KEY NOT NULL," +
-                "`pass` TEXT NOT NULL);";
+                "`pass` TEXT NOT NULL,"+
+                "`rol` TEXT NOT NULL);";
+
         stmt.executeUpdate(userTable);
         stmt.close();
         c.commit();
     }
-    
+    private static void createAdmin() throws SQLException {  // Creamos la tabla Usuarios.
+        Statement stmt = c.createStatement();
+        String hash = Pass.hashPass("admin");
+        String userTable = "INSERT INTO `usuarios` VALUES('admin','"+hash+"','admin');";
+
+        stmt.executeUpdate(userTable);
+        stmt.close();
+        c.commit();
+    }
     private static void createPartidaTable() throws SQLException {  // Creamos la tabla Partidas.
         Statement stmt = c.createStatement();
 

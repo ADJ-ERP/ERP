@@ -2,7 +2,9 @@ package application;
 
 import application.tabs.Cliente;
 import application.tabs.Partida;
+import application.tabs.Users;
 import database.CreateDatabase;
+import database.Query;
 import main.ERP;
 
 import javax.swing.*;
@@ -21,9 +23,15 @@ public class Application extends JFrame {
     private static final int HEIGHT;
 
     public String user;
-
+    Query query=new Query();
     public Application(String user) {
         this.user = user;
+        try {
+            query.isAdmin(user);
+        } catch (Exception e){
+
+        }
+
         initComponents();
     }
 
@@ -38,8 +46,15 @@ public class Application extends JFrame {
         JPanel p1 = new JPanel();
         p1.add(new JButton("b1"));
         // La idea es que cada frame es una clase de estas de extends JFrame y simplemente las llamamos desde las tabs, más fácil de usar.
-        tabs.addTab("Usuarios", p1);
 
+        try {
+            if(query.isAdmin(user)){
+                Users u = new Users();
+                tabs.addTab("Usuarios", u);
+            }
+        } catch (Exception e){
+
+        }
         Partida p = new Partida();
         tabs.add("Partidas", p);
 
@@ -67,7 +82,6 @@ public class Application extends JFrame {
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
-
                 dispose();
                 Runtime.getRuntime().halt(0);
             }
