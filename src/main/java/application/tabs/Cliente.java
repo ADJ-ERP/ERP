@@ -22,7 +22,7 @@ public class Cliente extends Tab {
 
     private JScrollPane clienteScrollPane;
 
-    public Cliente() {
+    public Cliente(boolean admin) {
         addStuffs(registerButton, clienteScrollPane, editButton, deleteButton);
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -33,6 +33,9 @@ public class Cliente extends Tab {
                 repaint();
             }
         });
+
+        editButton.setEnabled(admin);
+        deleteButton.setEnabled(admin);
     }
 
     @Override

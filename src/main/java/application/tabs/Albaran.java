@@ -22,7 +22,7 @@ public class Albaran extends Tab {
 
     private JScrollPane albaranScrollPane;
 
-    public Albaran() {
+    public Albaran(boolean admin) {
         addStuffs(registerButton, albaranScrollPane, editButton, deleteButton);
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -33,6 +33,9 @@ public class Albaran extends Tab {
                 repaint();
             }
         });
+
+        editButton.setEnabled(admin);
+        deleteButton.setEnabled(admin);
     }
 
     @Override

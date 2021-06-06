@@ -15,7 +15,6 @@ import java.awt.event.ComponentEvent;
 import java.sql.SQLException;
 
 public class Partida extends Tab {
-
     private JButton registerButton;
     private JButton editButton;
     private JButton deleteButton;
@@ -24,7 +23,7 @@ public class Partida extends Tab {
 
     private JScrollPane partidaScrollPane;
 
-    public Partida() {
+    public Partida(boolean admin) {
         addStuffs(registerButton, partidaScrollPane, editButton, deleteButton);
         this.addComponentListener(new ComponentAdapter() {
             @Override
@@ -35,6 +34,9 @@ public class Partida extends Tab {
                 repaint();
             }
         });
+
+        editButton.setEnabled(admin);
+        deleteButton.setEnabled(admin);
     }
 
     @Override
