@@ -1,13 +1,13 @@
 package userManagement;
 
-import application.tables.PartidaTable;
 import application.tables.UsersTable;
 import helpers.userAction;
 import utils.LanguageUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.sql.SQLException;
 
 public class RegistroUsuarios {
@@ -19,7 +19,7 @@ public class RegistroUsuarios {
     public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.register", "Registrar"));
     private JTextField userInput;
     private JTextField passwordInput;
-    private JComboBox rolInput;
+    private JComboBox<String> rolInput;
     private JTextField rePasswordInput;
 
     private final UsersTable usersTable;
@@ -27,7 +27,6 @@ public class RegistroUsuarios {
     private JLabel welcomeLabel;
     private JLabel userLabel;
     private JLabel rolLabel;
-    private JLabel rolLabelCombo;
     private JLabel passwordLabel;
 
     private JLabel rePasswordLabel;
@@ -55,7 +54,7 @@ public class RegistroUsuarios {
         userInput = (JTextField) createJThing(0, "");
         passwordInput = (JTextField) createJThing(0, "");
         rePasswordInput = (JTextField) createJThing(0, "");
-        rolInput= new JComboBox();
+        rolInput= new JComboBox<>();
         rolInput.addItem("");
         rolInput.addItem("admin");
         rolInput.addItem("user");

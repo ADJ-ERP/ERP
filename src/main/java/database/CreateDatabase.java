@@ -16,9 +16,9 @@ public class CreateDatabase {
     public static Connection c = null;
 
     public static void create(String name) throws SQLException {
-        boolean createDir = new File("database").mkdir();  // Creamos la carpeta donde estará la Base de Datos.
+        boolean createDir = new File("db").mkdir();  // Creamos la carpeta donde estará la Base de Datos.
         if (createDir) System.out.println("Carpeta de la base de datos creada");
-        c = DriverManager.getConnection(String.format("jdbc:sqlite:database/%s.db", name));  // Creamos la Base de Datos.
+        c = DriverManager.getConnection(String.format("jdbc:sqlite:db/%s.db", name));  // Creamos la Base de Datos.
         assert c != null;
         c.setAutoCommit(false);
         createTables();
@@ -27,6 +27,7 @@ public class CreateDatabase {
     private static void createTables() throws SQLException {  // Esto contiene toda la creación de tablas.
         createUserTable();
         createPartidaTable();
+        createClienteTable();
     }
 
     private static void createUserTable() throws SQLException {  // Creamos la tabla Usuarios.
@@ -73,6 +74,20 @@ public class CreateDatabase {
                 "`importeTotalCosto` INT NOT NULL," +
                 "`notas` TEXT NULL);";
         stmt.executeUpdate(partidaTable);
+        stmt.close();
+        c.commit();
+    }
+
+    private static void createClienteTable() throws SQLException {
+        Statement stmt = c.createStatement();
+
+        String clienteTable = "CREATE TABLE IF NOT EXISTS `clientes`(" +
+                "`nombre` TEXT NOT NULL," +
+                "`CIF` TEXT PRIMARY KEY NOT NULL," +
+                "`telefono` TEXT NOT NULL," +
+                "`correo` TEXT NOT NULL," +
+                "`direccion` TEXT NOT NULL);";
+        stmt.executeUpdate(clienteTable);
         stmt.close();
         c.commit();
     }
