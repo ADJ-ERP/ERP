@@ -1,5 +1,6 @@
 package application;
 
+import application.tabs.Cliente;
 import application.tabs.Partida;
 import database.CreateDatabase;
 import main.ERP;
@@ -42,9 +43,8 @@ public class Application extends JFrame {
         Partida p = new Partida();
         tabs.add("Partidas", p);
 
-        JPanel p3 = new JPanel();
-        p3.add(new JButton("b3"));
-        tabs.addTab("Clientes", p3);
+        Cliente c = new Cliente();
+        tabs.add("Clientes", c);
 
         JPanel p4 = new JPanel();
         p4.add(new JButton("b4"));

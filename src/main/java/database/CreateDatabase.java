@@ -25,6 +25,7 @@ public class CreateDatabase {
     private static void createTables() throws SQLException {  // Esto contiene toda la creación de tablas.
         createUserTable();
         createPartidaTable();
+        createClienteTable();
     }
 
     private static void createUserTable() throws SQLException {  // Creamos la tabla Usuarios.
@@ -61,6 +62,20 @@ public class CreateDatabase {
                 "`importeTotalCosto` INT NOT NULL," +
                 "`notas` TEXT NULL);";
         stmt.executeUpdate(partidaTable);
+        stmt.close();
+        c.commit();
+    }
+
+    private static void createClienteTable() throws SQLException {
+        Statement stmt = c.createStatement();
+
+        String clienteTable = "CREATE TABLE IF NOT EXISTS `clientes`(" +
+                "`nombre` TEXT NOT NULL," +
+                "`CIF` TEXT PRIMARY KEY NOT NULL," +
+                "`telefono` TEXT NOT NULL," +
+                "`correo` TEXT NOT NULL," +
+                "`direccion` TEXT NOT NULL);";
+        stmt.executeUpdate(clienteTable);
         stmt.close();
         c.commit();
     }

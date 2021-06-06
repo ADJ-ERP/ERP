@@ -176,6 +176,37 @@ public class Query {
         return null;
     }
 
+    public static CustomTableFormat getClientes() throws SQLException {
+        if (CreateDatabase.c != null) {
+            Statement stmt = CreateDatabase.c.createStatement();
+            String getPColumns = "PRAGMA table_info('clientes');";
+            ResultSet rs = stmt.executeQuery(getPColumns);
+
+            ArrayList<String> columns = new ArrayList<>();
+            while (rs.next()) {
+                columns.add(rs.getString("name"));
+            }
+
+            String getRows = "SELECT * FROM clientes;";
+            rs = stmt.executeQuery(getRows);
+            String[] row = new String[columns.size()];
+            ArrayList<String[]> rows = new ArrayList<>();
+            while (rs.next()) {
+                for (int i = 0; i < columns.size(); i++) {
+                    String placeHolder = rs.getString(columns.get(i));
+                    // Si está incompleto, añade un NULL.
+                    row[i] = placeHolder == null ? "NULL" : placeHolder;
+                }
+                rows.add(row);
+                row = new String[columns.size()];
+            }
+            rs.close();
+            stmt.close();
+            return new CustomTableFormat(columns, rows);
+        }
+        return null;
+    }
+
     public static PartidaDB getPartida(int nPartida) throws SQLException {
         if (CreateDatabase.c != null) {
             String getPart = String.format("SELECT * FROM partidas WHERE numPartida = %d", nPartida);
