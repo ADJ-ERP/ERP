@@ -10,12 +10,13 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Query {
-    public static void register(String userName, String pass) throws SQLException {  // Registra usuarios.
-        String query = "INSERT OR IGNORE INTO usuarios(usuario,pass) VALUES (?, ?);";
+    public static void register(String userName, String pass ,String rol) throws SQLException {  // Registra usuarios.
+        String query = "INSERT OR IGNORE INTO usuarios(usuario,pass,rol) VALUES (?, ?,?);";
         if (CreateDatabase.c != null) {  // Comprueba que la Base de Datos este creada.
             PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);  // Evitar que pongan inputs no deseados para acceder a información privada o tirarla.
             stmt.setString(1, userName);
             stmt.setString(2, pass);
+            stmt.setString(3, rol);
 
             stmt.executeUpdate();  // Añade el usuario.
             stmt.close();
@@ -49,7 +50,16 @@ public class Query {
         }
         return false;
     }
+    public static Boolean isAdmin (String user) throws SQLException {
+        String query = "SELECT rol FROM usuarios WHERE usuario LIKE ?;";
+        PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+        stmt.setString(1, user);
+        ResultSet rs = stmt.executeQuery();
+        String rol = rs.getString("rol");
+        System.out.println(rs.getString("rol"));
+        return rol.equals("admin");
 
+    }
     public static String getHash(String user) throws SQLException {  // Sacar el hash de la base de datos.
         String query = "SELECT pass FROM usuarios WHERE usuario LIKE ?;";
         if (CreateDatabase.c != null) {
@@ -134,5 +144,53 @@ public class Query {
             return new CustomTableFormat(columns, rows);
         }
         return null;
+    }
+
+    public static CustomTableFormat getUsers() throws SQLException {
+        if (CreateDatabase.c != null) {
+            Statement stmt = CreateDatabase.c.createStatement();
+            String getPColumns = "PRAGMA table_info('usuarios');";
+            ResultSet rs = stmt.executeQuery(getPColumns);
+
+            ArrayList<String> columns = new ArrayList<>();
+            while (rs.next()) {
+                columns.add(rs.getString("name"));
+            }
+
+            String getRows = "SELECT * FROM usuarios;";
+            rs = stmt.executeQuery(getRows);
+            String[] row = new String[columns.size()];
+            ArrayList<String[]> rows = new ArrayList<>();
+            while (rs.next()) {
+                for (int i = 0; i < columns.size(); i++) {
+                    String placeHolder = rs.getString(columns.get(i));
+                    // Si está incompleto, añade un NULL.
+                    row[i] = placeHolder == null ? "NULL" : placeHolder;
+                }
+                rows.add(row);
+                row = new String[columns.size()];
+            }
+            rs.close();
+            stmt.close();
+            return new CustomTableFormat(columns, rows);
+        }
+        return null;
+    }
+
+    public static boolean deleteUser(String nUser) {
+        String query = String.format("DELETE FROM usuarios WHERE usuario = '%s';", nUser);
+        if (CreateDatabase.c != null) {
+            try {
+                Statement stmt = CreateDatabase.c.createStatement();
+                stmt.executeUpdate(query);
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 }
