@@ -3,6 +3,7 @@ package application.windows.clientes;
 import application.tables.ClienteTable;
 import database.Query;
 import database.tables.ClientDB;
+import database.tables.PartidaDB;
 import utils.StringUtils;
 
 import javax.swing.*;
@@ -10,7 +11,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class InsertClient extends JFrame {
+public class EditClient extends JFrame {
+    private final ClientDB clientDB;
+
     private final JPanel container;
 
     private final ClienteTable clienteTable;
@@ -29,8 +32,10 @@ public class InsertClient extends JFrame {
 
     private JButton submitButton;
 
-    public InsertClient(ClienteTable clienteTable) {
+    public EditClient(ClienteTable clienteTable, ClientDB clientDB) {
         this.clienteTable = clienteTable;
+
+        this.clientDB = clientDB;
 
         container = new JPanel();
         container.setLayout(null);
@@ -98,8 +103,10 @@ public class InsertClient extends JFrame {
                         correoField.getText(),
                         direccionField.getText()
                 );
-                boolean executed = Query.registerClient(clientDB);
-                if (!executed) JOptionPane.showMessageDialog(null, "Error al insertar!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                boolean executed = Query.editClient(clientDB);
+                if (!executed) {
+                    JOptionPane.showMessageDialog(null, "Error al editar!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
                 close();
             }
         });
@@ -107,18 +114,24 @@ public class InsertClient extends JFrame {
 
     private void createJTextField() {
         nombreField = field();
+        nombreField.setText(clientDB.getNombre());
         nombreField.setBounds(170, 20, 180, 30);
 
         cifField = field();
+        cifField.setText(clientDB.getCIF());
+        cifField.setEditable(false);
         cifField.setBounds(170, 70, 180, 30);
 
         telefonoField = field();
+        telefonoField.setText(clientDB.getTelefono());
         telefonoField.setBounds(170, 120, 180, 30);
 
         correoField = field();
+        correoField.setText(clientDB.getCorreo());
         correoField.setBounds(170, 170, 180, 30);
 
         direccionField = field();
+        direccionField.setText(clientDB.getDireccion());
         direccionField.setBounds(170, 220, 180, 30);
     }
 

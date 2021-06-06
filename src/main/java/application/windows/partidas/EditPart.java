@@ -142,7 +142,7 @@ public class EditPart extends JFrame{
                         notasTextField.getText()
                 );
                 boolean executed = Query.editPartida(partidaDB);
-                if (!executed) JOptionPane.showMessageDialog(null, "Error al insertar!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                if (!executed) JOptionPane.showMessageDialog(null, "Error al editar!", "ERROR", JOptionPane.ERROR_MESSAGE);
                 close();
             }
         });

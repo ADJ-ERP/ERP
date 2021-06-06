@@ -1,12 +1,17 @@
 package application.tabs;
 
 import application.tables.ClienteTable;
+import application.windows.clientes.EditClient;
 import application.windows.clientes.InsertClient;
+import database.Query;
+import database.tables.ClientDB;
+import utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.SQLException;
 
 public class Cliente extends Tab {
     private JButton registerButton;
@@ -41,7 +46,29 @@ public class Cliente extends Tab {
 
         editButton = (JButton) createJThing(2, "Editar");
         editButton.addActionListener(actionEvent -> {
-            return;
+            String cif;
+            try {
+                cif = (String) clienteTable.getValueAt(
+                        clienteTable.getSelectedRow(),
+                        clienteTable.getColumn("CIF").getModelIndex()
+                );
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (cif == null) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try {
+                ClientDB clientDB = Query.getCliente(cif);
+                EditClient editClient = new EditClient(clienteTable, clientDB);
+                editClient.setVisible(true);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         });
 
         deleteButton = (JButton) createJThing(2, "Eliminar");

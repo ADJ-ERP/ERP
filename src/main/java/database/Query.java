@@ -118,6 +118,7 @@ public class Query {
                 stmt.setString(5, clientDB.getDireccion());
                 stmt.executeUpdate();
                 stmt.close();
+                CreateDatabase.c.commit();
                 return true;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -155,6 +156,29 @@ public class Query {
 
                 stmt.setInt(18, partidaDB.getNumPartida());
 
+                stmt.executeUpdate();
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static boolean editClient(ClientDB clientDB) {
+        String query = "UPDATE clientes SET nombre = ?, telefono = ?, correo = ?, direccion = ? WHERE CIF = ?";
+        if (CreateDatabase.c != null) {
+            try {
+                PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+                stmt.setString(1, clientDB.getNombre());
+                stmt.setString(2, clientDB.getTelefono());
+                stmt.setString(3, clientDB.getCorreo());
+                stmt.setString(4, clientDB.getDireccion());
+
+                stmt.setString(5, clientDB.getCIF());
                 stmt.executeUpdate();
                 stmt.close();
                 CreateDatabase.c.commit();
@@ -257,6 +281,25 @@ public class Query {
             rs.close();
             stmt.close();
             return partidaDB;
+        }
+        return null;
+    }
+
+    public static ClientDB getCliente(String cif) throws SQLException {
+        if (CreateDatabase.c != null) {
+            String getPart = String.format("SELECT * FROM clientes WHERE CIF = %s", cif);
+            Statement stmt = CreateDatabase.c.createStatement();
+            ResultSet rs = stmt.executeQuery(getPart);
+            ClientDB clientDB = new ClientDB(
+                    rs.getString("nombre"),
+                    rs.getString("CIF"),
+                    rs.getString("telefono"),
+                    rs.getString("correo"),
+                    rs.getString("direccion")
+            );
+            rs.close();
+            stmt.close();
+            return clientDB;
         }
         return null;
     }
