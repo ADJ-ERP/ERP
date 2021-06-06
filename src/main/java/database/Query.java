@@ -4,6 +4,7 @@ Esta clase es para manejar las Queries realizadas en la Base de Datos
 
 package database;
 
+import database.tables.ClientDB;
 import database.tables.PartidaDB;
 import utils.CustomTableFormat;
 
@@ -96,6 +97,27 @@ public class Query {
                 stmt.executeUpdate();  // Añade el usuario.
                 stmt.close();
                 CreateDatabase.c.commit();
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static boolean registerClient(ClientDB clientDB) {
+        String query = "INSERT OR IGNORE INTO clientes(nombre, CIF, telefono, correo, direccion) VALUES (?, ?, ?, ?, ?)";
+        if (CreateDatabase.c != null) {
+            try {
+                PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+                stmt.setString(1, clientDB.getNombre());
+                stmt.setString(2, clientDB.getCIF());
+                stmt.setString(3, clientDB.getTelefono());
+                stmt.setString(4, clientDB.getCorreo());
+                stmt.setString(5, clientDB.getDireccion());
+                stmt.executeUpdate();
+                stmt.close();
                 return true;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

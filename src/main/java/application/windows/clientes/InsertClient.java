@@ -2,6 +2,9 @@ package application.windows.clientes;
 
 import application.tables.ClienteTable;
 import application.tables.PartidaTable;
+import database.Query;
+import database.tables.ClientDB;
+import utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -88,7 +91,18 @@ public class InsertClient extends JFrame {
         submitButton.setText("Aceptar");
         submitButton.setBounds(100, 280, 150, 30);
         submitButton.addActionListener(actionEvent -> {
-
+            if (inputCheck()) {
+                ClientDB clientDB = new ClientDB(
+                        nombreField.getText(),
+                        cifField.getText(),
+                        telefonoField.getText(),
+                        correoField.getText(),
+                        direccionField.getText()
+                );
+                boolean executed = Query.registerClient(clientDB);
+                if (!executed) JOptionPane.showMessageDialog(null, "Error al insertar!", "ERROR", JOptionPane.ERROR_MESSAGE);
+                close();
+            }
         });
     }
 
@@ -138,5 +152,19 @@ public class InsertClient extends JFrame {
         field.setFont(new Font("Arial", Font.PLAIN, 14));
         field.setMargin(new Insets(1, 1, 1, 1));
         return field;
+    }
+
+    private boolean inputCheck() {
+        if (!StringUtils.areNotEmpty(
+                nombreField.getText(),
+                cifField.getText(),
+                telefonoField.getText(),
+                correoField.getText(),
+                direccionField.getText()
+        )) {
+            JOptionPane.showMessageDialog(null, "Debes completar todos los campos!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 }
