@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class RegisterSuperUser {
     static {
         WIDTH = 350;
-        HEIGHT = 500;
+        HEIGHT = 395;
     }
     public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.register", "Registrar"));
     private JTextField userInput;
@@ -26,7 +26,6 @@ public class RegisterSuperUser {
     private JLabel rePasswordLabel;
 
     private JButton submitButton;
-    private JButton loginButton;
 
     private static final int WIDTH;
     private static final int HEIGHT;
@@ -65,14 +64,6 @@ public class RegisterSuperUser {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        });
-
-        loginButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.alreadyAcc", "Ya tengo cuenta"));  // Iniciar sesión si ya tienes cuenta.
-        loginButton.setBackground(Color.WHITE);
-        loginButton.addActionListener(actionEvent -> {
-            frame.dispose();
-            Usuarios usr = new Usuarios();
-            usr.frame.setVisible(true);
         });
     }
 
@@ -141,8 +132,11 @@ public class RegisterSuperUser {
         rePasswordLabel.setBounds(marginLeft, verPos, horSize, verSize);
         rePasswordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (11.5 * verSize), 150, verSize);
-        loginButton.setBounds((int) ((width / 2) - loginButton.getWidth() / 2), (int) (13.3 * verSize), 200, verSize);
+        verPos = verPos + (2 * verSize) + 15;
+
+
+        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (10 * verSize), 150, verSize);
+
     }
 
     private void addStuffs() {  // Añadir components al frame.
@@ -160,7 +154,6 @@ public class RegisterSuperUser {
 
 
         frame.add(submitButton);
-        frame.add(loginButton);
     }
 
     public void success() {  // acciones onSuccess.

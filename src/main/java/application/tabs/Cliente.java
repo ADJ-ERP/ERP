@@ -22,8 +22,9 @@ public class Cliente extends Tab {
 
     private JScrollPane clienteScrollPane;
 
-    public Cliente() {
-        addStuffs(registerButton, clienteScrollPane, editButton, deleteButton);
+    public Cliente(Boolean admin) {
+        addStuffs(registerButton, editButton, deleteButton , clienteScrollPane);
+        if (!admin); registerButton.setEnabled(false);editButton.setEnabled(false);deleteButton.setEnabled(false);clienteScrollPane.setEnabled(false);
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {

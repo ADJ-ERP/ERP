@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class Usuarios {
     static {
         WIDTH = 300;
-        HEIGHT = 370;
+        HEIGHT = 325;
     }
 
     private static final int WIDTH;
@@ -137,7 +137,7 @@ public class Usuarios {
         passwordLabel.setBounds(marginLeft, verPos, horSize, verSize);
         passwordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (7.1 * verSize), 150, verSize);
+        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (7.5 * verSize), 150, verSize);
 
     }
 

@@ -48,19 +48,20 @@ public class Application extends JFrame {
         // La idea es que cada frame es una clase de estas de extends JFrame y simplemente las llamamos desde las tabs, más fácil de usar.
 
         try {
-            if(query.isAdmin(user)){
+            Boolean isAdmin=query.isAdmin(user);
+            if(isAdmin){
                 Users u = new Users();
                 tabs.addTab("Usuarios", u);
             }
+
+            Partida p = new Partida(isAdmin);
+            tabs.add("Partidas", p);
+
+            Cliente c = new Cliente(isAdmin);
+            tabs.add("Clientes", c);
         } catch (Exception e){
 
         }
-        Partida p = new Partida();
-        tabs.add("Partidas", p);
-
-        Cliente c = new Cliente();
-        tabs.add("Clientes", c);
-
         JPanel p4 = new JPanel();
         p4.add(new JButton("b4"));
         tabs.addTab("Albaranes", p4);

@@ -24,8 +24,9 @@ public class Partida extends Tab {
 
     private JScrollPane partidaScrollPane;
 
-    public Partida() {
-        addStuffs(registerButton, partidaScrollPane, editButton, deleteButton);
+    public Partida(Boolean admin) {
+        addStuffs(registerButton , editButton, deleteButton ,partidaScrollPane);
+        if (!admin); registerButton.setEnabled(false);editButton.setEnabled(false);deleteButton.setEnabled(false);partidaScrollPane.setEnabled(false);
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {

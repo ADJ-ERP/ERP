@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class RegistroUsuarios {
     static {
         WIDTH = 300;
-        HEIGHT = 500;
+        HEIGHT = 475;
     }
 
     public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.register", "Registrar"));
@@ -24,7 +24,6 @@ public class RegistroUsuarios {
 
     private final UsersTable usersTable;
 
-    private JLabel welcomeLabel;
     private JLabel userLabel;
     private JLabel rolLabel;
     private JLabel passwordLabel;
@@ -61,7 +60,6 @@ public class RegistroUsuarios {
     }
 
     private void createJLabel() {  // Crear todos los Labels.
-        welcomeLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.welcome", "Bienvenido!"));
         userLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.username", "Nombre de usuario"));
         passwordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.password", "Contraseña"));
         rolLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.rol", "Rol del usuario"));
@@ -136,9 +134,7 @@ public class RegistroUsuarios {
         int horSize = marginRight - marginLeft;
 
         int verSize = (int) height / 14;
-        int verPos = verSize + 20;
-
-        welcomeLabel.setBounds((int) ((width / 2) - welcomeLabel.getWidth() / 2), 15, 95, verSize);
+        int verPos = verSize;
 
         userLabel.setBounds(marginLeft, verPos, horSize, verSize);
         userInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
@@ -164,8 +160,6 @@ public class RegistroUsuarios {
     }
 
     private void addStuffs() {  // Añadir components al frame.
-        frame.add(welcomeLabel);
-
         frame.add(userInput);
         frame.add(passwordInput);
         frame.add(rePasswordInput);
