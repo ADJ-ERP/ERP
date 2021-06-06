@@ -176,4 +176,21 @@ public class Query {
         }
         return null;
     }
+
+    public static boolean deleteUser(String nUser) {
+        String query = String.format("DELETE FROM usuarios WHERE usuario = '%s';", nUser);
+        if (CreateDatabase.c != null) {
+            try {
+                Statement stmt = CreateDatabase.c.createStatement();
+                stmt.executeUpdate(query);
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
 }

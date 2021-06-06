@@ -1,17 +1,19 @@
 package application.tabs;
 
 import application.tables.UsersTable;
-import application.windows.InsertPart;
+import database.Query;
 import userManagement.RegistroUsuarios;
+import utils.PaneUtils;
+import utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.SQLException;
 
 public class Users extends Tab{
     private JButton registerButton;
-    private JButton editButton;
     private JButton deleteButton;
 
     private UsersTable usersTable;
@@ -19,7 +21,7 @@ public class Users extends Tab{
     private JScrollPane partidaScrollPane;
 
     public Users() {
-        addStuffs(registerButton, partidaScrollPane, editButton, deleteButton);
+        addStuffs(registerButton, partidaScrollPane, deleteButton);
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
@@ -40,11 +42,40 @@ public class Users extends Tab{
             regUsr.frame.setVisible(true);
         });
 
-        editButton = (JButton) createJThing(2, "Editar usuario");
-        editButton.addActionListener(actionEvent -> System.out.println("a"));
 
         deleteButton = (JButton) createJThing(2, "Eliminar usuario");
-        deleteButton.addActionListener(actionEvent -> System.out.println("b"));
+        deleteButton.addActionListener(actionEvent -> {
+            String sNUsuario;
+            String RolUsuario;
+            try {
+                sNUsuario = (String) usersTable.getValueAt(usersTable.getSelectedRow(),usersTable.getColumn("usuario").getModelIndex());
+                RolUsuario=(String) usersTable.getValueAt(usersTable.getSelectedRow(),usersTable.getColumn("rol").getModelIndex());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionadof.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (sNUsuario == null) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+
+            if (PaneUtils.confirmation(String.format("Vas a eliminar al usuario %s\nSeguro que quieres continuar?", sNUsuario))) {
+                if(RolUsuario.equals("admin")){
+                    if (PaneUtils.confirmation(String.format("Vas a eliminar a un  administrador\n¿Seguro que quieres continuar?", sNUsuario))) {
+                        if (Query.deleteUser(sNUsuario)) {
+                            usersTable.refresh();
+                        }
+                    }
+                }else{
+                    if (Query.deleteUser(sNUsuario)) {
+                        usersTable.refresh();
+                    }
+                }
+
+            }
+        });
     }
 
     @Override
@@ -73,8 +104,6 @@ public class Users extends Tab{
         registerButton.setBounds(horMargin, verMargin, buttonWidth, buttonHeight);
         registerButton.setFont(new Font("Arial", Font.BOLD, fontSize));
 
-        editButton.setBounds(horMargin + buttonWidth + 30, verMargin, buttonWidth, buttonHeight);
-        editButton.setFont(new Font("Arial", Font.BOLD, fontSize));
 
         deleteButton.setBounds((int) (width - (horMargin + buttonWidth)), verMargin, buttonWidth, buttonHeight);
         deleteButton.setFont(new Font("Arial", Font.BOLD, fontSize));
