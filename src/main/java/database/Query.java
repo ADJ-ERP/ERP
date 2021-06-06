@@ -140,7 +140,7 @@ public class Query {
     }
 
     public static boolean registerAlbaran(AlbaranDB albaranDB) {
-        String query = "INSERT OR IGNORE INTO clientes(codigo, fecha, cantidadKG, descripcion, precioKG, precioTotal) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT OR IGNORE INTO albaranes(codigo, fecha, cantidadKG, descripcion, precioKG, precioTotal) VALUES (?, ?, ?, ?, ?, ?)";
         if (CreateDatabase.c != null) {
             try {
                 PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
@@ -461,6 +461,23 @@ public class Query {
 
     public static boolean deleteClient(String cif) {
         String query = String.format("DELETE FROM clientes WHERE CIF = %s;", cif);
+        if (CreateDatabase.c != null) {
+            try {
+                Statement stmt = CreateDatabase.c.createStatement();
+                stmt.executeUpdate(query);
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static boolean deleteAlbaran(String codigo) {
+        String query = String.format("DELETE FROM albaranes WHERE codigo = %s;", codigo);
         if (CreateDatabase.c != null) {
             try {
                 Statement stmt = CreateDatabase.c.createStatement();

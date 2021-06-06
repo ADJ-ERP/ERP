@@ -68,7 +68,7 @@ public class EditAlbaran extends JFrame {
     private void createJButton() {
         submitButton = new JButton();
         submitButton.setText("Aceptar");
-        submitButton.setBounds(100, 280, 150, 30);
+        submitButton.setBounds(100, 320, 150, 30);
         submitButton.addActionListener(actionEvent -> {
             if (inputCheck()) {
                 AlbaranDB albaranDB = new AlbaranDB(
@@ -88,7 +88,7 @@ public class EditAlbaran extends JFrame {
 
     private void createJFrame() {
         setBounds(100, 100, 380, 400);
-        setTitle("Registrar Albaran");
+        setTitle("Editar Albaran");
         setResizable(false);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
@@ -204,7 +204,7 @@ public class EditAlbaran extends JFrame {
             return false;
         }
 
-        if (!StringUtils.isNotDouble(
+        if (StringUtils.isNotDouble(
                 cantidadField.getText(),
                 precioField.getText(),
                 precioField.getText()

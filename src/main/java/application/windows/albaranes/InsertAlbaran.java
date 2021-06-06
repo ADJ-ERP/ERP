@@ -3,14 +3,11 @@ package application.windows.albaranes;
 import application.tables.AlbaranTable;
 import database.Query;
 import database.tables.AlbaranDB;
-import database.tables.ClientDB;
 import utils.StringUtils;
 
 import javax.swing.*;
-import javax.swing.text.TextAction;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -69,7 +66,7 @@ public class InsertAlbaran extends JFrame {
     private void createJButton() {
         submitButton = new JButton();
         submitButton.setText("Aceptar");
-        submitButton.setBounds(100, 280, 150, 30);
+        submitButton.setBounds(100, 320, 150, 30);
         submitButton.addActionListener(actionEvent -> {
             if (inputCheck()) {
                 AlbaranDB albaranDB = new AlbaranDB(
@@ -199,7 +196,7 @@ public class InsertAlbaran extends JFrame {
             return false;
         }
 
-        if (!StringUtils.isNotDouble(
+        if (StringUtils.isNotDouble(
                 cantidadField.getText(),
                 precioField.getText(),
                 precioField.getText()

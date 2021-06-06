@@ -7,6 +7,7 @@ import application.windows.clientes.EditClient;
 import database.Query;
 import database.tables.AlbaranDB;
 import database.tables.ClientDB;
+import utils.PaneUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +74,29 @@ public class Albaran extends Tab {
         });
 
         deleteButton = (JButton) createJThing(2, "Eliminar");
-        deleteButton.addActionListener(actionEvent -> {});
+        deleteButton.addActionListener(actionEvent -> {
+            String codigo;
+            try {
+                codigo = (String) albaranTable.getValueAt(
+                        albaranTable.getSelectedRow(),
+                        albaranTable.getColumn("codigo").getModelIndex()
+                );
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (codigo == null) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (PaneUtils.confirmation(String.format("Vas a eliminar Albaran con codigo %s\nSeguro que quieres continuar?", codigo))) {
+                if (Query.deleteAlbaran(codigo)) {
+                    albaranTable.refresh();
+                }
+            }
+        });
     }
 
     @Override
