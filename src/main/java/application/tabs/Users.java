@@ -4,13 +4,11 @@ import application.tables.UsersTable;
 import database.Query;
 import userManagement.RegistroUsuarios;
 import utils.PaneUtils;
-import utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.sql.SQLException;
 
 public class Users extends Tab{
     private JButton registerButton;

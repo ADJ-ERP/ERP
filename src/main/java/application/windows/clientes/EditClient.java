@@ -3,7 +3,6 @@ package application.windows.clientes;
 import application.tables.ClienteTable;
 import database.Query;
 import database.tables.ClientDB;
-import database.tables.PartidaDB;
 import utils.StringUtils;
 
 import javax.swing.*;

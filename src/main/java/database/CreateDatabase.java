@@ -28,6 +28,7 @@ public class CreateDatabase {
         createUserTable();
         createPartidaTable();
         createClienteTable();
+        createAlbaranTable();
     }
 
     private static void createUserTable() throws SQLException {  // Creamos la tabla Usuarios.
@@ -42,6 +43,7 @@ public class CreateDatabase {
         stmt.close();
         c.commit();
     }
+
     private static void createAdmin() throws SQLException {  // Creamos la tabla Usuarios.
         Statement stmt = c.createStatement();
         String hash = Pass.hashPass("admin");
@@ -51,6 +53,7 @@ public class CreateDatabase {
         stmt.close();
         c.commit();
     }
+
     private static void createPartidaTable() throws SQLException {  // Creamos la tabla Partidas.
         Statement stmt = c.createStatement();
 
@@ -88,6 +91,20 @@ public class CreateDatabase {
                 "`correo` TEXT NOT NULL," +
                 "`direccion` TEXT NOT NULL);";
         stmt.executeUpdate(clienteTable);
+        stmt.close();
+        c.commit();
+    }
+
+    private static void createAlbaranTable() throws SQLException {
+        Statement stmt = c.createStatement();
+        String albaranTable = "CREATE TABLE IF NOT EXISTS `albaranes`(" +
+                "`codigo` TEXT PRIMARY KEY NOT NULL," +
+                "`fecha` TEXT NOT NULL," +
+                "`cantidadKG` REAL NOT NULL," +
+                "`descripcion` TEXT NOT NULL," +
+                "`precioKG` REAL NOT NULL," +
+                "`precioTotal` REAL NOT NULL);";
+        stmt.executeUpdate(albaranTable);
         stmt.close();
         c.commit();
     }

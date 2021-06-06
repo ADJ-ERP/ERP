@@ -3,7 +3,6 @@ package main;
 import database.CreateDatabase;
 import database.Query;
 import userManagement.RegisterSuperUser;
-import userManagement.RegistroUsuarios;
 import userManagement.Usuarios;
 import utils.LanguageUtils;
 

@@ -23,4 +23,16 @@ public class StringUtils {
             return true;
         }
     }
+
+    public static boolean isNotDouble(String... doubles) {
+        try {
+            for (String s : doubles) {
+                Double.parseDouble(s);
+            }
+            return false;
+        }
+        catch (Exception e) {
+            return true;
+        }
+    }
 }

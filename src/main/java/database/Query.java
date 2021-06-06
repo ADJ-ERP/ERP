@@ -4,6 +4,7 @@ Esta clase es para manejar las Queries realizadas en la Base de Datos
 
 package database;
 
+import database.tables.AlbaranDB;
 import database.tables.ClientDB;
 import database.tables.PartidaDB;
 import utils.CustomTableFormat;
@@ -138,6 +139,29 @@ public class Query {
         return false;
     }
 
+    public static boolean registerAlbaran(AlbaranDB albaranDB) {
+        String query = "INSERT OR IGNORE INTO albaranes(codigo, fecha, cantidadKG, descripcion, precioKG, precioTotal) VALUES (?, ?, ?, ?, ?, ?)";
+        if (CreateDatabase.c != null) {
+            try {
+                PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+                stmt.setString(1, albaranDB.getCodigo());
+                stmt.setString(2, albaranDB.getFecha());
+                stmt.setDouble(3, albaranDB.getCantidadKG());
+                stmt.setString(4, albaranDB.getDescripcion());
+                stmt.setDouble(5, albaranDB.getPrecioKG());
+                stmt.setDouble(6, albaranDB.getPrecioTotal());
+                stmt.executeUpdate();
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
     public static boolean editPartida(PartidaDB partidaDB) {
         String query = "UPDATE partidas SET fechaAlta = ?, tipo = ?, centroVenta = ?, numMatadero = ?, proveedor = ?, " +
                 "numExplotacion = ?, paisNacido = ?, paisSacrificado = ?, tipoAnimal = ?, totalAnimales = ?, " +
@@ -201,6 +225,30 @@ public class Query {
         return false;
     }
 
+    public static boolean editAlbaran(AlbaranDB albaranDB) {
+        String query = "UPDATE albaranes SET fecha = ?, cantidadKG = ?, descripcion = ?, precioKG = ?, precioTotal = ? WHERE codigo = ?";
+        if (CreateDatabase.c != null) {
+            try {
+                PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+                stmt.setString(1, albaranDB.getFecha());
+                stmt.setDouble(2, albaranDB.getCantidadKG());
+                stmt.setString(3, albaranDB.getDescripcion());
+                stmt.setDouble(4, albaranDB.getPrecioKG());
+                stmt.setDouble(5, albaranDB.getPrecioTotal());
+
+                stmt.setString(6, albaranDB.getCodigo());
+                stmt.executeUpdate();
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
     public static CustomTableFormat getPartidas() throws SQLException {
         if (CreateDatabase.c != null) {
             Statement stmt = CreateDatabase.c.createStatement();
@@ -244,6 +292,36 @@ public class Query {
                 columns.add(rs.getString("name"));
             }
             String getRows = "SELECT * FROM clientes;";
+            rs = stmt.executeQuery(getRows);
+            String[] row = new String[columns.size()];
+            ArrayList<String[]> rows = new ArrayList<>();
+            while (rs.next()) {
+                for (int i = 0; i < columns.size(); i++) {
+                    String placeHolder = rs.getString(columns.get(i));
+                    // Si está incompleto, añade un NULL.
+                    row[i] = placeHolder == null ? "NULL" : placeHolder;
+                }
+                rows.add(row);
+                row = new String[columns.size()];
+            }
+            rs.close();
+            stmt.close();
+            return new CustomTableFormat(columns, rows);
+        }
+        return null;
+    }
+
+    public static CustomTableFormat getAlbaranes() throws SQLException {
+        if (CreateDatabase.c != null) {
+            Statement stmt = CreateDatabase.c.createStatement();
+            String getPColumns = "PRAGMA table_info('albaranes');";
+            ResultSet rs = stmt.executeQuery(getPColumns);
+
+            ArrayList<String> columns = new ArrayList<>();
+            while (rs.next()) {
+                columns.add(rs.getString("name"));
+            }
+            String getRows = "SELECT * FROM albaranes;";
             rs = stmt.executeQuery(getRows);
             String[] row = new String[columns.size()];
             ArrayList<String[]> rows = new ArrayList<>();
@@ -344,6 +422,26 @@ public class Query {
         return null;
     }
 
+    public static AlbaranDB getAlbaran(String codigo) throws SQLException {
+        if (CreateDatabase.c != null) {
+            String getPart = String.format("SELECT * FROM albaranes WHERE codigo = %s", codigo);
+            Statement stmt = CreateDatabase.c.createStatement();
+            ResultSet rs = stmt.executeQuery(getPart);
+            AlbaranDB albaranDB = new AlbaranDB(
+                    rs.getString("codigo"),
+                    rs.getString("fecha"),
+                    rs.getDouble("cantidadKG"),
+                    rs.getString("descripcion"),
+                    rs.getDouble("precioKG"),
+                    rs.getDouble("precioTotal")
+            );
+            rs.close();
+            stmt.close();
+            return albaranDB;
+        }
+        return null;
+    }
+
     public static boolean deletePartida(int nPartida) {
         String query = String.format("DELETE FROM partidas WHERE numPartida = %d;", nPartida);
         if (CreateDatabase.c != null) {
@@ -363,6 +461,23 @@ public class Query {
 
     public static boolean deleteClient(String cif) {
         String query = String.format("DELETE FROM clientes WHERE CIF = %s;", cif);
+        if (CreateDatabase.c != null) {
+            try {
+                Statement stmt = CreateDatabase.c.createStatement();
+                stmt.executeUpdate(query);
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static boolean deleteAlbaran(String codigo) {
+        String query = String.format("DELETE FROM albaranes WHERE codigo = %s;", codigo);
         if (CreateDatabase.c != null) {
             try {
                 Statement stmt = CreateDatabase.c.createStatement();
