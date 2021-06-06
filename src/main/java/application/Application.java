@@ -1,5 +1,6 @@
 package application;
 
+import application.tabs.Albaran;
 import application.tabs.Cliente;
 import application.tabs.Partida;
 import application.tabs.Users;
@@ -36,7 +37,7 @@ public class Application extends JFrame {
     }
 
     private void initComponents() {
-        this.setBounds(100, 100, 768, 480);
+        this.setBounds(100, 100, 788, 500);
         this.setTitle(String.format("%s - %s", ERP.NAME, this.user));
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setMinimumSize(new Dimension(WIDTH, HEIGHT));
@@ -61,9 +62,8 @@ public class Application extends JFrame {
         Cliente c = new Cliente();
         tabs.add("Clientes", c);
 
-        JPanel p4 = new JPanel();
-        p4.add(new JButton("b4"));
-        tabs.addTab("Albaranes", p4);
+        Albaran a = new Albaran();
+        tabs.add("Albaranes", a);
 
         JPanel p5 = new JPanel();
         p5.add(new JButton("b5"));

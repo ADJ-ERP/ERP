@@ -4,6 +4,7 @@ Esta clase es para manejar las Queries realizadas en la Base de Datos
 
 package database;
 
+import database.tables.AlbaranDB;
 import database.tables.ClientDB;
 import database.tables.PartidaDB;
 import utils.CustomTableFormat;
@@ -138,6 +139,29 @@ public class Query {
         return false;
     }
 
+    public static boolean registerAlbaran(AlbaranDB albaranDB) {
+        String query = "INSERT OR IGNORE INTO clientes(codigo, fecha, cantidadKG, descripcion, precioKG, precioTotal) VALUES (?, ?, ?, ?, ?, ?)";
+        if (CreateDatabase.c != null) {
+            try {
+                PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+                stmt.setString(1, albaranDB.getCodigo());
+                stmt.setString(2, albaranDB.getFecha());
+                stmt.setDouble(3, albaranDB.getCantidadKG());
+                stmt.setString(4, albaranDB.getDescripcion());
+                stmt.setDouble(5, albaranDB.getPrecioKG());
+                stmt.setDouble(6, albaranDB.getPrecioTotal());
+                stmt.executeUpdate();
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
     public static boolean editPartida(PartidaDB partidaDB) {
         String query = "UPDATE partidas SET fechaAlta = ?, tipo = ?, centroVenta = ?, numMatadero = ?, proveedor = ?, " +
                 "numExplotacion = ?, paisNacido = ?, paisSacrificado = ?, tipoAnimal = ?, totalAnimales = ?, " +
@@ -244,6 +268,36 @@ public class Query {
                 columns.add(rs.getString("name"));
             }
             String getRows = "SELECT * FROM clientes;";
+            rs = stmt.executeQuery(getRows);
+            String[] row = new String[columns.size()];
+            ArrayList<String[]> rows = new ArrayList<>();
+            while (rs.next()) {
+                for (int i = 0; i < columns.size(); i++) {
+                    String placeHolder = rs.getString(columns.get(i));
+                    // Si está incompleto, añade un NULL.
+                    row[i] = placeHolder == null ? "NULL" : placeHolder;
+                }
+                rows.add(row);
+                row = new String[columns.size()];
+            }
+            rs.close();
+            stmt.close();
+            return new CustomTableFormat(columns, rows);
+        }
+        return null;
+    }
+
+    public static CustomTableFormat getAlbaranes() throws SQLException {
+        if (CreateDatabase.c != null) {
+            Statement stmt = CreateDatabase.c.createStatement();
+            String getPColumns = "PRAGMA table_info('albaranes');";
+            ResultSet rs = stmt.executeQuery(getPColumns);
+
+            ArrayList<String> columns = new ArrayList<>();
+            while (rs.next()) {
+                columns.add(rs.getString("name"));
+            }
+            String getRows = "SELECT * FROM albaranes;";
             rs = stmt.executeQuery(getRows);
             String[] row = new String[columns.size()];
             ArrayList<String[]> rows = new ArrayList<>();
