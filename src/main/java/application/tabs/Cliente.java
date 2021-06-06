@@ -1,12 +1,11 @@
 package application.tabs;
 
-import application.tables.PartidaTable;
-import application.windows.partidas.EditPart;
-import application.windows.partidas.InsertPart;
+import application.tables.ClienteTable;
+import application.windows.clientes.EditClient;
+import application.windows.clientes.InsertClient;
 import database.Query;
-import database.tables.PartidaDB;
+import database.tables.ClientDB;
 import utils.PaneUtils;
-import utils.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,18 +13,17 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.sql.SQLException;
 
-public class Partida extends Tab {
-
+public class Cliente extends Tab {
     private JButton registerButton;
     private JButton editButton;
     private JButton deleteButton;
 
-    private PartidaTable partidaTable;
+    private ClienteTable clienteTable;
 
-    private JScrollPane partidaScrollPane;
+    private JScrollPane clienteScrollPane;
 
-    public Partida() {
-        addStuffs(registerButton, partidaScrollPane, editButton, deleteButton);
+    public Cliente() {
+        addStuffs(registerButton, clienteScrollPane, editButton, deleteButton);
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
@@ -40,36 +38,34 @@ public class Partida extends Tab {
     @Override
     public void createJButton() {
         super.createJButton();
-        registerButton = (JButton) createJThing(2, "Registrar Partida");
+        registerButton = (JButton) createJThing(2, "Registrar Cliente");
         registerButton.addActionListener(actionEvent -> {
-            InsertPart insertPart = new InsertPart(partidaTable);
-            insertPart.setVisible(true);
+            InsertClient insertClient = new InsertClient(clienteTable);
+            insertClient.setVisible(true);
         });
 
         editButton = (JButton) createJThing(2, "Editar");
         editButton.addActionListener(actionEvent -> {
-            String sNPartida;
+            String cif;
             try {
-                sNPartida = (String) partidaTable.getValueAt(
-                        partidaTable.getSelectedRow(),
-                        partidaTable.getColumn("numPartida").getModelIndex()
+                cif = (String) clienteTable.getValueAt(
+                        clienteTable.getSelectedRow(),
+                        clienteTable.getColumn("CIF").getModelIndex()
                 );
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            if (sNPartida == null || StringUtils.isNotInt(sNPartida)) {
+            if (cif == null) {
                 JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            int nPartida = Integer.parseInt(sNPartida);
-
             try {
-                PartidaDB partidaDB = Query.getPartida(nPartida);
-                EditPart editPart = new EditPart(partidaTable, partidaDB);
-                editPart.setVisible(true);
+                ClientDB clientDB = Query.getCliente(cif);
+                EditClient editClient = new EditClient(clienteTable, clientDB);
+                editClient.setVisible(true);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
@@ -77,26 +73,25 @@ public class Partida extends Tab {
 
         deleteButton = (JButton) createJThing(2, "Eliminar");
         deleteButton.addActionListener(actionEvent -> {
-            String sNPartida;
+            String cif;
             try {
-                sNPartida = (String) partidaTable.getValueAt(
-                        partidaTable.getSelectedRow(),
-                        partidaTable.getColumn("numPartida").getModelIndex()
+                cif = (String) clienteTable.getValueAt(
+                        clienteTable.getSelectedRow(),
+                        clienteTable.getColumn("CIF").getModelIndex()
                 );
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            if (sNPartida == null || StringUtils.isNotInt(sNPartida)) {
+            if (cif == null) {
                 JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            int nPartida = Integer.parseInt(sNPartida);
-            if (PaneUtils.confirmation(String.format("Vas a eliminar la partida número %d\nSeguro que quieres continuar?", nPartida))) {
-                if (Query.deletePartida(nPartida)) {
-                    partidaTable.refresh();
+            if (PaneUtils.confirmation(String.format("Vas a eliminar cliente con CIF %s\nSeguro que quieres continuar?", cif))) {
+                if (Query.deleteClient(cif)) {
+                    clienteTable.refresh();
                 }
             }
         });
@@ -105,14 +100,14 @@ public class Partida extends Tab {
     @Override
     public void createJTable() {
         super.createJTable();
-        partidaTable = new PartidaTable();
+        clienteTable = new ClienteTable();
     }
 
     @Override
     public void createScrollPane() {
         super.createScrollPane();
-        partidaScrollPane = new JScrollPane(partidaTable);
-        partidaTable.onConnect();
+        clienteScrollPane = new JScrollPane(clienteTable);
+        clienteTable.onConnect();
     }
 
     private void setComponentBounds() {  // Las dimensiones de los components.
@@ -134,8 +129,8 @@ public class Partida extends Tab {
         deleteButton.setBounds((int) (width - (horMargin + buttonWidth)), verMargin, buttonWidth, buttonHeight);
         deleteButton.setFont(new Font("Arial", Font.BOLD, fontSize));
 
-        partidaScrollPane.setBounds(horMargin, (int) (height / 7), (int) (width - (horMargin * 2)), (int) (height - ((height / 21.2 * 3) + (height / 14.15))));
-        partidaTable.setFont(new Font("Arial", Font.PLAIN, fontSize));
-        partidaTable.packAll();
+        clienteScrollPane.setBounds(horMargin, (int) (height / 7), (int) (width - (horMargin * 2)), (int) (height - ((height / 21.2 * 3) + (height / 14.15))));
+        clienteTable.setFont(new Font("Arial", Font.PLAIN, fontSize));
+        clienteTable.packAll();
     }
 }
