@@ -141,9 +141,6 @@ public class RegisterSuperUser {
         rePasswordLabel.setBounds(marginLeft, verPos, horSize, verSize);
         rePasswordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        verPos = verPos + (2 * verSize) + 15;
-
-
         submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (11.5 * verSize), 150, verSize);
         loginButton.setBounds((int) ((width / 2) - loginButton.getWidth() / 2), (int) (13.3 * verSize), 200, verSize);
     }
@@ -173,6 +170,5 @@ public class RegisterSuperUser {
     public void error() {  // acciones onError.
         passwordInput.setText("");
         rePasswordInput.setText("");
-
     }
 }

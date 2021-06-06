@@ -1,6 +1,5 @@
 package helpers;
 
-import main.Principal;
 import userManagement.Usuarios;
 
 public class PrincipalActions {
