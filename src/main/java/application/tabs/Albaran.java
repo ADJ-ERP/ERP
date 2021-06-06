@@ -3,10 +3,8 @@ package application.tabs;
 import application.tables.AlbaranTable;
 import application.windows.albaranes.EditAlbaran;
 import application.windows.albaranes.InsertAlbaran;
-import application.windows.clientes.EditClient;
 import database.Query;
 import database.tables.AlbaranDB;
-import database.tables.ClientDB;
 import utils.PaneUtils;
 
 import javax.swing.*;

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class RegisterSuperUser {
     static {
         WIDTH = 350;
-        HEIGHT = 500;
+        HEIGHT = 450;
     }
     public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.register", "Registrar"));
     private JTextField userInput;
@@ -26,7 +26,6 @@ public class RegisterSuperUser {
     private JLabel rePasswordLabel;
 
     private JButton submitButton;
-    private JButton loginButton;
 
     private static final int WIDTH;
     private static final int HEIGHT;
@@ -50,9 +49,9 @@ public class RegisterSuperUser {
     }
 
     private void createJLabel() {  // Crear todos los Labels.
-        welcomeLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.Superwelcome", "Bienvenido crea el Superusuario!"));
-        userLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.Superusername", "Nombre de Superusuario"));
-        passwordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.Superpassword", "Contraseña de Superusuario"));
+        welcomeLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.Superwelcome", "Bienvenido!"));
+        userLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.Superusername", "Nombre Superusuario"));
+        passwordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.Superpassword", "Contraseña Superusuario"));
         rePasswordLabel = (JLabel) createJThing(1, LanguageUtils.getTranslation("users.repassword", "Repetir contraseña"));
     }
 
@@ -65,14 +64,6 @@ public class RegisterSuperUser {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        });
-
-        loginButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.alreadyAcc", "Ya tengo cuenta"));  // Iniciar sesión si ya tienes cuenta.
-        loginButton.setBackground(Color.WHITE);
-        loginButton.addActionListener(actionEvent -> {
-            frame.dispose();
-            Usuarios usr = new Usuarios();
-            usr.frame.setVisible(true);
         });
     }
 
@@ -123,7 +114,7 @@ public class RegisterSuperUser {
         int marginRight = (int) width - marginLeft;
         int horSize = marginRight - marginLeft;
 
-        int verSize = (int) height / 14;
+        int verSize = (int) height / 12;
         int verPos = verSize + 20;
 
         welcomeLabel.setBounds((int) ((width / 2) - welcomeLabel.getWidth() / 2), 15, 95, verSize);
@@ -141,8 +132,7 @@ public class RegisterSuperUser {
         rePasswordLabel.setBounds(marginLeft, verPos, horSize, verSize);
         rePasswordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
-        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (11.5 * verSize), 150, verSize);
-        loginButton.setBounds((int) ((width / 2) - loginButton.getWidth() / 2), (int) (13.3 * verSize), 200, verSize);
+        submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (9.5 * verSize), 150, verSize);
     }
 
     private void addStuffs() {  // Añadir components al frame.
@@ -152,15 +142,11 @@ public class RegisterSuperUser {
         frame.add(passwordInput);
         frame.add(rePasswordInput);
 
-
         frame.add(userLabel);
         frame.add(passwordLabel);
         frame.add(rePasswordLabel);
 
-
-
         frame.add(submitButton);
-        frame.add(loginButton);
     }
 
     public void success() {  // acciones onSuccess.

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class Usuarios {
     static {
         WIDTH = 300;
-        HEIGHT = 370;
+        HEIGHT = 330;
     }
 
     private static final int WIDTH;
@@ -124,7 +124,7 @@ public class Usuarios {
         int marginRight = (int) width - marginLeft;
         int horSize = marginRight - marginLeft;
 
-        int verSize = (int) height / 12;
+        int verSize = (int) height / 10;
         int verPos = verSize + 20;
 
         infoLabel.setBounds((int) ((width / 2) - infoLabel.getWidth() / 2), 15, 95, verSize);
@@ -138,7 +138,6 @@ public class Usuarios {
         passwordInput.setBounds(marginLeft, verPos + verSize, horSize, verSize);
 
         submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (7.1 * verSize), 150, verSize);
-
     }
 
     public void success() {  // acciones onSuccess.

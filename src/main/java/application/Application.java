@@ -24,15 +24,8 @@ public class Application extends JFrame {
     private static final int HEIGHT;
 
     public String user;
-    Query query=new Query();
     public Application(String user) {
         this.user = user;
-        try {
-            query.isAdmin(user);
-        } catch (Exception e){
-
-        }
-
         initComponents();
     }
 
@@ -49,13 +42,12 @@ public class Application extends JFrame {
         // La idea es que cada frame es una clase de estas de extends JFrame y simplemente las llamamos desde las tabs, más fácil de usar.
 
         try {
-            if(query.isAdmin(user)){
+            if(Query.isAdmin(user)){
                 Users u = new Users();
                 tabs.addTab("Usuarios", u);
             }
-        } catch (Exception e){
+        } catch (SQLException ignored) { }
 
-        }
         Partida p = new Partida();
         tabs.add("Partidas", p);
 
@@ -65,9 +57,9 @@ public class Application extends JFrame {
         Albaran a = new Albaran();
         tabs.add("Albaranes", a);
 
-        JPanel p5 = new JPanel();
-        p5.add(new JButton("b5"));
-        tabs.addTab("Facturas", p5);
+//        JPanel p5 = new JPanel();
+//        p5.add(new JButton("b5"));
+//        tabs.addTab("Facturas", p5);
 
         this.add(tabs);
 

@@ -13,7 +13,7 @@ import java.sql.SQLException;
 public class RegistroUsuarios {
     static {
         WIDTH = 300;
-        HEIGHT = 500;
+        HEIGHT = 490;
     }
 
     public JFrame frame = new JFrame(LanguageUtils.getTranslation("users.register", "Registrar"));
@@ -32,7 +32,6 @@ public class RegistroUsuarios {
     private JLabel rePasswordLabel;
 
     private JButton submitButton;
-    private JButton loginButton;
 
     private static final int WIDTH;
     private static final int HEIGHT;
@@ -77,14 +76,6 @@ public class RegistroUsuarios {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
-        });
-
-        loginButton = (JButton) createJThing(2, LanguageUtils.getTranslation("users.alreadyAcc", "Ya tengo cuenta"));  // Iniciar sesión si ya tienes cuenta.
-        loginButton.setBackground(Color.WHITE);
-        loginButton.addActionListener(actionEvent -> {
-            frame.dispose();
-            Usuarios usr = new Usuarios();
-            usr.frame.setVisible(true);
         });
     }
 
@@ -160,7 +151,6 @@ public class RegistroUsuarios {
 
 
         submitButton.setBounds((int) ((width / 2) - submitButton.getWidth() / 2), (int) (11.5 * verSize), 150, verSize);
-        loginButton.setBounds((int) ((width / 2) - loginButton.getWidth() / 2), (int) (13.3 * verSize), 200, verSize);
     }
 
     private void addStuffs() {  // Añadir components al frame.
@@ -176,9 +166,7 @@ public class RegistroUsuarios {
         frame.add(rePasswordLabel);
         frame.add(rolLabel);
 
-
         frame.add(submitButton);
-        frame.add(loginButton);
     }
 
     public void success() {
