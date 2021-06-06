@@ -320,4 +320,21 @@ public class Query {
         }
         return false;
     }
+
+    public static boolean deleteClient(String cif) {
+        String query = String.format("DELETE FROM clientes WHERE CIF = %s;", cif);
+        if (CreateDatabase.c != null) {
+            try {
+                Statement stmt = CreateDatabase.c.createStatement();
+                stmt.executeUpdate(query);
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
 }

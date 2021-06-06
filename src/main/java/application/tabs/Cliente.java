@@ -5,7 +5,7 @@ import application.windows.clientes.EditClient;
 import application.windows.clientes.InsertClient;
 import database.Query;
 import database.tables.ClientDB;
-import utils.StringUtils;
+import utils.PaneUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +73,27 @@ public class Cliente extends Tab {
 
         deleteButton = (JButton) createJThing(2, "Eliminar");
         deleteButton.addActionListener(actionEvent -> {
-            return;
+            String cif;
+            try {
+                cif = (String) clienteTable.getValueAt(
+                        clienteTable.getSelectedRow(),
+                        clienteTable.getColumn("CIF").getModelIndex()
+                );
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (cif == null) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (PaneUtils.confirmation(String.format("Vas a eliminar cliente con CIF %s\nSeguro que quieres continuar?", cif))) {
+                if (Query.deleteClient(cif)) {
+                    clienteTable.refresh();
+                }
+            }
         });
     }
 
