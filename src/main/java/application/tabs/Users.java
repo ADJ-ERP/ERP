@@ -62,13 +62,13 @@ public class Users extends Tab{
 
 
             if (PaneUtils.confirmation(String.format("Vas a eliminar al usuario %s\nSeguro que quieres continuar?", sNUsuario))) {
-                if(RolUsuario.equals("admin")){
-                    if (PaneUtils.confirmation(String.format("Vas a eliminar a un  administrador\n¿Seguro que quieres continuar?", sNUsuario))) {
+                if(RolUsuario.equals("admin")) {
+                    if (PaneUtils.confirmation("Vas a eliminar a un  administrador\n¿Seguro que quieres continuar?")) {
                         if (Query.deleteUser(sNUsuario)) {
                             usersTable.refresh();
                         }
                     }
-                }else{
+                } else {
                     if (Query.deleteUser(sNUsuario)) {
                         usersTable.refresh();
                     }
