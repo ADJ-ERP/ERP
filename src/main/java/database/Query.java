@@ -225,6 +225,30 @@ public class Query {
         return false;
     }
 
+    public static boolean editAlbaran(AlbaranDB albaranDB) {
+        String query = "UPDATE albaranes SET fecha = ?, cantidadKG = ?, descripcion = ?, precioKG = ?, precioTotal = ? WHERE codigo = ?";
+        if (CreateDatabase.c != null) {
+            try {
+                PreparedStatement stmt = CreateDatabase.c.prepareStatement(query);
+                stmt.setString(1, albaranDB.getFecha());
+                stmt.setDouble(2, albaranDB.getCantidadKG());
+                stmt.setString(3, albaranDB.getDescripcion());
+                stmt.setDouble(4, albaranDB.getPrecioKG());
+                stmt.setDouble(5, albaranDB.getPrecioTotal());
+
+                stmt.setString(6, albaranDB.getCodigo());
+                stmt.executeUpdate();
+                stmt.close();
+                CreateDatabase.c.commit();
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return false;
+            }
+        }
+        return false;
+    }
+
     public static CustomTableFormat getPartidas() throws SQLException {
         if (CreateDatabase.c != null) {
             Statement stmt = CreateDatabase.c.createStatement();
@@ -394,6 +418,26 @@ public class Query {
             rs.close();
             stmt.close();
             return clientDB;
+        }
+        return null;
+    }
+
+    public static AlbaranDB getAlbaran(String codigo) throws SQLException {
+        if (CreateDatabase.c != null) {
+            String getPart = String.format("SELECT * FROM albaranes WHERE codigo = %s", codigo);
+            Statement stmt = CreateDatabase.c.createStatement();
+            ResultSet rs = stmt.executeQuery(getPart);
+            AlbaranDB albaranDB = new AlbaranDB(
+                    rs.getString("codigo"),
+                    rs.getString("fecha"),
+                    rs.getDouble("cantidadKG"),
+                    rs.getString("descripcion"),
+                    rs.getDouble("precioKG"),
+                    rs.getDouble("precioTotal")
+            );
+            rs.close();
+            stmt.close();
+            return albaranDB;
         }
         return null;
     }

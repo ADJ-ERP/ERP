@@ -1,12 +1,18 @@
 package application.tabs;
 
 import application.tables.AlbaranTable;
+import application.windows.albaranes.EditAlbaran;
 import application.windows.albaranes.InsertAlbaran;
+import application.windows.clientes.EditClient;
+import database.Query;
+import database.tables.AlbaranDB;
+import database.tables.ClientDB;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.sql.SQLException;
 
 public class Albaran extends Tab {
     private JButton registerButton;
@@ -40,7 +46,31 @@ public class Albaran extends Tab {
         });
 
         editButton = (JButton) createJThing(2, "Editar");
-        editButton.addActionListener(actionEvent -> {});
+        editButton.addActionListener(actionEvent -> {
+            String codigo;
+            try {
+                codigo = (String) albaranTable.getValueAt(
+                        albaranTable.getSelectedRow(),
+                        albaranTable.getColumn("codigo").getModelIndex()
+                );
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (codigo == null) {
+                JOptionPane.showMessageDialog(null, "No hay nada seleccionado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            try {
+                AlbaranDB albaranDB = Query.getAlbaran(codigo);
+                EditAlbaran editAlbaran = new EditAlbaran(albaranTable, albaranDB);
+                editAlbaran.setVisible(true);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
 
         deleteButton = (JButton) createJThing(2, "Eliminar");
         deleteButton.addActionListener(actionEvent -> {});
