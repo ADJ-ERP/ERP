@@ -1,0 +1,26 @@
+{
+  "language.code": "en_us",
+  "language.name": "English",
+  "language.region": "United States",
+
+  "users.login": "Log in",
+  "users.welcome": "Welcome!",
+  "users.username": "Username",
+  "users.password": "Password",
+  "users.Superwelcome": "Welcome create the SuperUser!",
+  "users.Superusername": "Username for SuperUser",
+  "users.Superpassword": "Password for SuperUser",
+  "users.rol": "User role",
+  "users.repassword": "Repeat password",
+  "users.createAccount": "Create account",
+  "users.register": "Register",
+  "users.alreadyAcc": "I have an account",
+
+  "error.passNoMatch": "Passwords don't match.",
+  "error.userExists": "This user already exists.",
+  "error.registerError": "Register error.",
+  "error.notFilled": "You can't leave inputs empty.",
+  "error.userNotExists": "This user doesn't exists.",
+  "error.loginError": "Log in error.",
+  "error.passwordError": "Wrong password."
+}
